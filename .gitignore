@@ -1,1 +1,4 @@
-.(toc|out|aux|log)
+*.tex
+*.out
+*.aux
+*.log
