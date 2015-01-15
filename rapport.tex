@@ -1,0 +1,42 @@
+% Rapport sur l'environnement de développement avec Vagrant
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[francais]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx} % Pour intégrer des images
+\usepackage{hyperref} % Liens externes
+\usepackage{listings} % Code source
+
+\title{Environnements de développement avec Vagrant et Docker}
+\author{Maxence Bothorel, Thibaut Crouvezier}
+\date{22/01/2015}
+
+\begin{document}
+
+\maketitle{}
+
+\newpage{}
+
+\tableofcontents{}
+
+\newpage{}
+
+\section{Introduction}
+
+\subsection{Vagrant}
+\textbf{Vagrant} est un outil développé en Ruby, sous licence MIT pour créer des environnements de développements. Il se veut simple d'utilisation afin d'augmenter la productivité de l'utilisateur. Le développement de Vagrant à commencer en Janvier 2010 par Mitchell Hashimoto. Celui ci a travaillé sur Vagrant pendant 3 ans sur son temps libre, avant de créer l'entreprise \textbf{Hashicorp}, afin de continuer le projet à plein temps.
+
+Vagrant créé et gère des machines virtuelles à destinations des développeurs. Ces machines permettent à l'utilisateur d'effectuer des tests dans un environnement fermé, afin de ne pas casser son système d'exploitation. 
+
+Vagrant met en place des machines virtuelles sur VirtualBox, VMWare (Fusion et Workstation), dans le cloud grâce à AWS d'Amazon et Openstack, et également dans des conteneurs Docker et LXC. Il est disponnible sur Windows, OS X et Linux. De plus, Red Hat a créé un plugin permettant à Vagrant de fonctionner avec KVM.
+
+Vagrant permet donc de travailler de façon sécurisée, à seul ou à plusieurs afin d'essayer des logiciels, des scripts ou autre...
+
+\subsection{Docker}
+
+\section{Mise en place}
+
+L'installation de Vagrant est simple puisqu'il est dans les dépôts Debian, 
+
+\end{document}
