@@ -21,7 +21,7 @@
 \maketitle{}
 
 \begin{center}
-\includegraphics[width=10cm]{images_rapport/univ_logo.jpg}
+  \includegraphics[width=10cm]{images_rapport/univ_logo.jpg}
 \end{center}
 
 \newpage{}
@@ -35,7 +35,7 @@ Un environnement de développement est un ensemble d'outils et de logiciels afin
 
 \subsection{Vagrant}
 \begin{center}
-\includegraphics[width=12cm]{images_rapport/vagrant_logo.jpg}
+  \includegraphics[width=12cm]{images_rapport/vagrant_logo.jpg}
 \end{center}
 
 \textbf{Vagrant} est un outil développé en Ruby, sous licence MIT pour créer des environnements de développements. Il se veut simple d'utilisation afin d'augmenter la productivité de l'utilisateur. Le développement de Vagrant à commencer en Janvier 2010 par Mitchell Hashimoto. Celui ci a travaillé sur Vagrant pendant 3 ans sur son temps libre, avant de créer l'entreprise \textbf{Hashicorp}, afin de continuer le projet à plein temps.
@@ -48,7 +48,7 @@ Vagrant permet donc de travailler de façon sécurisée, à seul ou à plusieurs
 
 \subsection{Docker}
 \begin{center}
-\includegraphics[width=6.5cm]{images_rapport/docker_logo.jpg}
+  \includegraphics[width=6.5cm]{images_rapport/docker_logo.jpg}
 \end{center}
 
 \newpage
@@ -66,7 +66,7 @@ La virtualisation est le fait de créer une "machine virtuelle", un nouveau syst
 Le système invité est entièrement indépendant de l'hôte, ce qui permet de virtualiser un Microsoft Windows 7 sur Debian 8, ou l'inverse. Ce système a ses limites. En effet, il est gourmand en ressources (processeur, RAM) puisqu'il faut disposer d'assez de puissance pour faire fonctionner plusieurs systèmes d'exploitations.
 
 \begin{center}
-\includegraphics[width=15cm]{images_rapport/virtualisation.jpg}
+  \includegraphics[width=15cm]{images_rapport/virtualisation.jpg}
 \end{center}
 
 Sur l'image ci-dessus, On peut voir le matériel en gris, puis l'hyperviseur, c'est à dire le système hôte. On voit également qu'il y a trois systèmes invités, avec leurs applications. On voit clairement que les systèmes invités sont indépendants du matériel de la machine, puisqu'il est également virtuel. On peut décider de créer un disque virtuel, comprenant un disque dur virtuel de 20Go, un processeur avec 2 cores et 4Go de RAM afin qu'une machine puisse fonctionneer
@@ -100,6 +100,10 @@ Sur l'image ci-dessus, On peut voir le matériel en gris, puis l'hyperviseur, c'
 \subsection{Qu'est-ce que la virtualisation par conteneurs ?}
 
 La virtualisation par conteneurs ne nécessite pas de virtualiser un système d'exploitation complet, il se charge juste d'empaqueter un environnement de développement léger pour le déploiement d'applications. Ce système de virtualisation est dépendant du système hôte et des conteneurs entre eux. 
+
+\begin{center}
+  \includegraphics[width=15cm]{images_rapport/vm_container.jpg}
+\end{center}
 
 La désavantage de cette virtualisation est qu'elle se base sur le noyau du système hôte, ce qui restreint son déploiement. Il faut donc un conteneur Linux pour un noyau Linux. 
 
