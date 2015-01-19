@@ -9,10 +9,8 @@ all : rapport slides
 rapport : $(RAP)
 	$(COMP) $(RAP)
 	$(COMP) $(RAP)
-	rm $(TMP)
 slides : $(SLI)
 	$(COMP) $(SLI)
 	$(COMP) $(SLI)
-	rm $(TMP)
 clean :
 	rm $(TMP)
