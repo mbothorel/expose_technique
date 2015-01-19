@@ -159,13 +159,14 @@ Il est également possible de synchroniser les dossiers avec rsync. Dans ce cas,
 En résumé : le partage via NFS est à privilégier car il est plus performant et a moins d'inconvéniants (un bug de VirtualBox peut entraîner des fichiers corrompus, la synchronisation automatique avec rsync est plus fastidieuse a mettre en place et SMB est disponnible que pour les hôtes Windows).
 
 \subsubsection{Le partage des machines}
-Vagrant est un logiciel collaboratif : il est possible de partager ses machines avec n'importe qui. Pour ce faire, vagrant dispose de commandes :
+Vagrant est un logiciel collaboratif : il est possible de partager ses machines avec n'importe qui. Pour ce faire, il faut créer un compte sur le site atlas de Vagrant. Ensuite, il suffit de lancer ces commandes :
 \begin{lstlisting}
-vagrant share
-vagrant connect --ssh
-vagrant connect
+vagrant share [--ssh] [--http 8080]
+vagrant connect --ssh joyful-antelope-0616
 \end{lstlisting}
-Il faut un compte
+
+La première commande lance le partage. 
+
 
 \section{Docker}
 
