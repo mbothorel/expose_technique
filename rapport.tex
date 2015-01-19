@@ -7,12 +7,13 @@
 \usepackage{graphicx} % Pour intégrer des images
 \usepackage{hyperref} % Liens externes
 \usepackage{listings} % Code source
+\usepackage{hyperref} % Lien hypertexte
 
 \usepackage{vmargin} % Pour formater la taille des marges du doc
 \setpapersize{A4}
 \setmargins{20mm}{15mm}{170mm}{250mm}{10mm}{0mm}{0pt}{1.2cm}
 
-\title{Environnement de développement avec Vagrant et Docker}
+\title{Les environnements de développement avec Vagrant et Docker}
 \author{Maxence Bothorel, Thibaut Crouvezier}
 \date{22/01/2015}
 
@@ -92,22 +93,52 @@ On peut donc télécharger le tarball sur GitHub, le récupérer grâce aux dép
 
 Nous avons utilisé les versions disponnible sur Debian unstable et la dernière, disponnible sur le site officiel.
 
-\subsection{Fonctionnement}
-\subsubsection{Lancement d'une machine virtuelle}
-Il est possible de lancer une machine virtuelle quelque soit le dossier dans lequel on se trouve. Néanmoins, il est préférable de créer un dossier par VMs, puisque Vagrant peuplera le dossier de fichiers de configuration.
+\subsection{Utilisation basique}
 
-Après avoir créer un dossier correpondant à la machine voulue, les commandes : 
+Pour créer une nouvelle machine virtuelle, il suffit d'utiliser les deux commandes :
 \begin{lstlisting}
 vagrant init ubuntu/trusty64
 vagrant up
 \end{lstlisting}
 
-La première commande sert à créer le Vangrantfile, expliqué dans un prochain chapitre.Cele sert à initier la création de la VM. La deuxième commande télécharge le disque virtuel hébergée par Hashicorp, la société derrière Vagrant. 
+La première commande sert à créer un Vangrantfile, un fichier de configuration de la machine avec une synthaxe Ruby. Il existe plusieurs Vagrantfiles : 
+Lorsqu'une commande de Vagrant est utilisé, celui-ci remonte l'arborescence afin de trouver le Vagrantfile. On peut changer le répertoire à partir duquel Vagrant lance la recherche grâce à la variable d'environnement VAGRANT\_CWD. La deuxième commande télécharge le disque virtuel hébergé par Hashicorp\footnote{Hashicorp a créé un \href{https://atlas.hashicorp.com/boxes/search}{annuaire de machines}, afin d'en faciliter le téléchargement}, la société derrière Vagrant.
+Au bout de quelques minutes, la machine est téléchargée et prête à être utilisé. Un shell est lancer grâce à la commande : 
 
-Au bout de quelques minutes, la machine est téléchargée et prête à être utilisé et un shell est lancer grâce à la commande : 
 \begin{lstlisting}
 vagrant ssh
 \end{lstlisting}
+
+\subsection{Fichiers de configuration}
+Les fichiers de configuration de Vagrant sont des Vagrantfiles. Il en existe plusieurs, et sont tous lus dans un certain ordre lors du démarrage d'une machine :
+\begin{enumerate}
+	\item{Le Vagrantfile téléchargé avec la machine.}
+	\item{Un Vagrantfile dans le dossier /home/user/.vagrant.d, qui est appliqué sur toutes les machines.}
+	\item{Le Vagrantfile créé lors de la commande d'initialisation de la machine.}
+	\item{Si le dernier n'existe pas, un Vagrantfile concernant plusieurs machines.}
+	\item{Si le dernier n'existe pas non plus, un Vagrantfile qui concerne l'hyperviseur.}
+\end{enumerate}
+
+Les fichiers sont donc lus un par un et les configurations fusionnées ou remplacées. C'est du Ruby (ce qui permet d'en faire des scripts aisément) :
+\begin{lstlisting}
+Vagrant.configure(2) do |config|
+  ...
+end
+\end{lstlisting}
+Le chiffre 2 signifie que la version de configuration est pour Vagrant version 1.1 ou plus, alors que les configurations pour les versions 1.0.x sont mentionnées par un 1.
+
+On peut également obligé l'utilisateur à avoir une certaine version de Vagrant (dans ce cas, une version entre la 1.3.5 et la 1.4.0) :
+\begin{lstlisting}
+Vagrant.require_version ">= 1.3.5", "< 1.4.0"
+\end{lstlisting}
+
+Il existe beaucoup de paramètres de configurations et sont classés comme ceci : 
+\begin{itemize}
+	\item{Les configurations comprenant config.vm, qui concernent la machine et son disque virtuel (mise à jour, checksum, réseau, hostname...).}
+	\item{Les configurations comprenant config.ssh, qui permet à Vagrant de savoir comment utiliser SSH avec la machine (port, clé SSH, utilisation de X11...).} 
+	\item{Les configurations comprenant config.winrm, qui permettent à Vagrant de savoir comment accéder à une machine Windows (nom d'utilisateur, mot de passe, port...).}
+	\item{Les configurations comprenant config.vagrant, qui concernent le système hôte. Par défaut en détection automatique.}
+\end{itemize}
 
 \subsection{Partages}
 
@@ -148,8 +179,6 @@ vagrant connect --ssh
 vagrant connect
 \end{lstlisting}
 Il faut un compte
-
-\subsection{Les différents hyperviseurs pour Vagrant}
 
 \section{Fonctionnement de Docker}
 
