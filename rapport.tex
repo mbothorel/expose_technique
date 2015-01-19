@@ -32,37 +32,13 @@
 \newpage{}
 
 \section{Introduction}
-Un environnement de développement est un ensemble d'outils et de logiciels afin d'augmenter la productivité d'un développeur. Cela peut être un éditeur de texte, avec un débogeur et un compilateur. Dans notre cas, l'environnement de développement est une plateforme qui sert au développeur a essayer ses logiciels, dans un environnement cloturé afin de ne pas porter atteinte à son système en cas d'erreurs. L'environnement est de préférence portable, afin que plusieurs développeurs puissent travailler avec la même base.
-
-\subsection{Vagrant}
-\begin{center}
-  \includegraphics[width=12cm]{images_rapport/vagrant_logo.jpg}
-\end{center}
-
-\textbf{Vagrant} est un outil développé en Ruby, sous licence MIT pour créer des environnements de développements. Il se veut simple d'utilisation afin d'augmenter la productivité de l'utilisateur. Le développement de Vagrant à commencer en Janvier 2010 par Mitchell Hashimoto. Celui ci a travaillé sur Vagrant pendant 3 ans sur son temps libre, avant de créer l'entreprise \textbf{Hashicorp}, afin de continuer le projet à plein temps.
-
-Vagrant créé et gère des machines virtuelles à destinations des développeurs. Ces machines permettent à l'utilisateur d'effectuer des tests dans un environnement fermé, afin de ne pas casser son système d'exploitation. 
-
-Vagrant met en place des machines virtuelles sur VirtualBox, VMWare (Fusion et Workstation), dans le cloud grâce à AWS d'Amazon et Openstack, et également dans des conteneurs Docker et LXC. Il est disponnible sur Windows, OS X et Linux. De plus, Red Hat a créé un plugin permettant à Vagrant de fonctionner avec KVM.
-
-Vagrant permet donc de travailler de façon sécurisée, à seul ou à plusieurs afin d'essayer des logiciels, des scripts ou autre...
-
-\subsection{Docker}
-\begin{center}
-  \includegraphics[width=6.5cm]{images_rapport/docker_logo.jpg}
-\end{center}
-
-\newpage
-
-\textbf{Docker} est une plate-forme de virtualisation par conteneurs développé en Go, sous licence Apache 2.0. Le but de cette plate-forme est d'empaqueter des applications, afin de permettre le déploiement de celles-ci sur n'importe quel type d'environnement. C'est Solomon Hykes qui crée ce projet avec la contribution de deux autres développeurs, Andrea Luzzardi et François-Xavier Bourlet qui travaillaient à ses cotés au sein de \textit{dotCloud}. Le projet est officiellement distribué à partir de Mars 2013. Il est toujours actif à ce jour et fortement populaire sur le gestionnaire de versions collaboratives \textit{GitHub}.
-
-L'avantage de Docker est qu'il n'intègre pas de système d'exploitation, il est directement lié au système qui l'héberge, évitant ainsi d'être gourmand en ressources. Le fait qu'il soit aussi indépendant offre la possibilité d'avoir un développement totalement transparent et rapide à intégrer. 
+Un environnement de développement est un ensemble d'outils et de logiciels afin d'augmenter la productivité d'un développeur. Cela peut être un éditeur de texte, avec un débogeur et un compilateur. Dans notre cas, l'environnement de développement est une plateforme qui sert au développeur à essayer ses logiciels, dans un environnement cloturé afin de ne pas porter atteinte à son système en cas d'erreurs. L'environnement est de préférence portable, afin que plusieurs développeurs puissent travailler avec la même base. Nous verrons deux pionniers dans le domaine : Vagrant et Docker. Nous étudierons leurs utilisations et leurs configurations  après avoir rappelé leurs concepts, la virtualisation et les conteneurs. 
 
 \section{Rappels}
 
 \subsection{Qu'est-ce que la virtualisation ?}
 
-La virtualisation est le fait de créer une "machine virtuelle", un nouveau système d'exploitation qui s'exécutera au dessus du système principal. On dit que la machine hôte est celle ou la machine invitée est virtualisé. Cette machine virtuelle est indépendante du matérielle (excepté l'architecture du processeur).
+La virtualisation est le fait de créer une "machine virtuelle", un nouveau système d'exploitation qui s'exécutera au dessus du système principal. On dit que la machine hôte est celle ou la machine invitée est virtualisée. Cette machine virtuelle est indépendante du matérielle.
 
 Le système invité est entièrement indépendant de l'hôte, ce qui permet de virtualiser un Microsoft Windows 7 sur Debian 8, ou l'inverse. Ce système a ses limites. En effet, il est gourmand en ressources (processeur, RAM) puisqu'il faut disposer d'assez de puissance pour faire fonctionner plusieurs systèmes d'exploitations.
 
@@ -70,7 +46,7 @@ Le système invité est entièrement indépendant de l'hôte, ce qui permet de v
   \includegraphics[width=15cm]{images_rapport/virtualisation.jpg}
 \end{center}
 
-Sur l'image ci-dessus, On peut voir le matériel en gris, puis l'hyperviseur, c'est à dire le système hôte. On voit également qu'il y a trois systèmes invités, avec leurs applications. On voit clairement que les systèmes invités sont indépendants du matériel de la machine, puisqu'il est également virtuel. On peut décider de créer un ensemble de matériel virtuel, comprenant un disque dur virtuel de 20Go, un processeur avec 2 cores et 4Go de RAM afin qu'une machine puisse fonctionneer
+Sur l'image ci-dessus, On peut voir le matériel en gris, puis l'hyperviseur en bleu, c'est à dire le système hôte. On voit également qu'il y a trois systèmes invités, avec leurs applications. On voit clairement que les systèmes invités sont indépendants du matériel de la machine, puisqu'il est également virtualisé. On peut décider de créer un ensemble de matériel virtuel, comprenant un disque dur virtuel de 20Go, un processeur avec 2 cores et 4Go de RAM afin qu'une machine puisse fonctionneer
 
 \subsection{Qu'est-ce que la virtualisation par conteneurs ?}
 
@@ -85,6 +61,19 @@ La désavantage de cette virtualisation est qu'elle se base sur le noyau du syst
 De l'autre coté, cette dépendance au noyau, permet une meilleure gestion des ressources. En effet, la virtualisation par conteneurs permet de pouvoir exploiter toute la quantité de RAM de l'hôte, ainsi que tous ces processeurs.
 
 \section{Vagrant}
+
+\subsection{Introduction}
+\begin{center}
+  \includegraphics[width=12cm]{images_rapport/vagrant_logo.jpg}
+\end{center}
+
+\textbf{Vagrant} est un outil développé en Ruby, sous licence MIT pour créer des environnements de développements. Il se veut simple d'utilisation afin d'augmenter la productivité de l'utilisateur. Le développement de Vagrant à commencer en Janvier 2010 par Mitchell Hashimoto. Celui ci a travaillé sur Vagrant pendant 3 ans sur son temps libre, avant de créer l'entreprise \textbf{Hashicorp}, afin de continuer le projet à plein temps.
+
+Vagrant créé et gère des machines virtuelles à destinations des développeurs. Ces machines permettent à l'utilisateur d'effectuer des tests dans un environnement fermé, afin de ne pas casser son système d'exploitation. 
+
+Vagrant met en place des machines virtuelles sur VirtualBox, VMWare (Fusion et Workstation), dans le cloud grâce à AWS d'Amazon et Openstack, et également dans des conteneurs Docker et LXC. Il est disponnible sur Windows, OS X et Linux. De plus, Red Hat a créé un plugin permettant à Vagrant de fonctionner avec KVM.
+
+Vagrant permet donc de travailler de façon sécurisée, à seul ou à plusieurs afin d'essayer des logiciels, des scripts ou autre...
 
 \subsection{Installation}
 Vagrant est dans les dépôts de Debian unstable en version 1.6.5, et est disponnible en version 1.7.2 sur le site officiel. Le projet Fedora ne supporte pas encore Vagrant. Malgré cela, les développeurs souhaitent le proposer pour la version 22 avec le logiciel libvirt comme hyperviseur par défaut, au lieu de VirtualBox.
@@ -178,12 +167,19 @@ vagrant connect
 \end{lstlisting}
 Il faut un compte
 
-<<<<<<< HEAD
-\section{Fonctionnement de Docker}
-=======
-\subsection{Les différents hyperviseurs pour Vagrant}
-
 \section{Docker}
+
+\subsection{Introduction}
+\begin{center}
+  \includegraphics[width=6.5cm]{images_rapport/docker_logo.jpg}
+\end{center}
+
+\newpage
+
+\textbf{Docker} est une plate-forme de virtualisation par conteneurs développé en Go, sous licence Apache 2.0. Le but de cette plate-forme est d'empaqueter des applications, afin de permettre le déploiement de celles-ci sur n'importe quel type d'environnement. C'est Solomon Hykes qui crée ce projet avec la contribution de deux autres développeurs, Andrea Luzzardi et François-Xavier Bourlet qui travaillaient à ses cotés au sein de \textit{dotCloud}. Le projet est officiellement distribué à partir de Mars 2013. Il est toujours actif à ce jour et fortement populaire sur le gestionnaire de versions collaboratives \textit{GitHub}.
+
+L'avantage de Docker est qu'il n'intègre pas de système d'exploitation, il est directement lié au système qui l'héberge, évitant ainsi d'être gourmand en ressources. Le fait qu'il soit aussi indépendant offre la possibilité d'avoir un développement totalement transparent et rapide à intégrer. 
+
 \subsection{Installation}
 Avec la dernière version de Debian, Debian 8, Docker est directement disponible dans les dépôts avec le paquet \textit{docker.io}. Il s'agit de la dernière version du logiciel, 1.4.1. Après cette installation rapide, ce qui nous intéresse c'est d'installer un conteneur. Docker va donc nous permettre de chercher un conteneur adequat suivant nos besoins et de l'installer ensuite. Nous avons décidé d'installer un environnement \textit{Debian}.
 
