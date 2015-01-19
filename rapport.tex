@@ -95,19 +95,17 @@ Nous avons utilisé les versions disponnible sur Debian unstable et la dernière
 
 \subsection{Utilisation basique}
 
-Pour créer une nouvelle machine virtuelle, il suffit d'utiliser les deux commandes :
+Pour créer une nouvelle machine virtuelle, il suffit d'utiliser les commandes :
 \begin{lstlisting}
 vagrant init ubuntu/trusty64
 vagrant up
-\end{lstlisting}
-
-La première commande sert à créer un Vangrantfile, un fichier de configuration de la machine avec une synthaxe Ruby. Il existe plusieurs Vagrantfiles : 
-Lorsqu'une commande de Vagrant est utilisé, celui-ci remonte l'arborescence afin de trouver le Vagrantfile. On peut changer le répertoire à partir duquel Vagrant lance la recherche grâce à la variable d'environnement VAGRANT\_CWD. La deuxième commande télécharge le disque virtuel hébergé par Hashicorp\footnote{Hashicorp a créé un \href{https://atlas.hashicorp.com/boxes/search}{annuaire de machines}, afin d'en faciliter le téléchargement}, la société derrière Vagrant.
-Au bout de quelques minutes, la machine est téléchargée et prête à être utilisé. Un shell est lancer grâce à la commande : 
-
-\begin{lstlisting}
 vagrant ssh
 \end{lstlisting}
+
+La première commande sert à créer un Vangrantfile, un fichier de configuration de la machine. La deuxième commande télécharge le disque virtuel hébergé par Hashicorp\footnote{Hashicorp a créé un \href{https://atlas.hashicorp.com/boxes/search}{annuaire de machines}, afin d'en faciliter le téléchargement}, la société derrière Vagrant.
+Au bout de quelques minutes, la machine est téléchargée et prête à être utilisée. Un shell est lancé grâce à la dernière commande. 
+
+Lorsqu'une commande de Vagrant est utilisée, celui-ci remonte l'arborescence afin de trouver le Vagrantfile. On peut changer le répertoire à partir duquel Vagrant lance la recherche grâce à la variable d'environnement VAGRANT\_CWD. 
 
 \subsection{Fichiers de configuration}
 Les fichiers de configuration de Vagrant sont des Vagrantfiles. Il en existe plusieurs, et sont tous lus dans un certain ordre lors du démarrage d'une machine :
@@ -165,7 +163,7 @@ De plus, d'autres paramètres existent pour le partage NFS :
 	\item{nfs\_udp (booléen) : Ce paramètre sert à savoir quel protocole de transport utilisé.}
 	\item{nfs\_version (nombre) : Ce paramètre sert à déterminer la version de NFS utilisé.}
 \end{itemize}
-Pour que Vagrant modifie le fichier /etc/exports, il lui faut des droits root. Il est donc possible de renseigner le mot de passe à chaque démarrage de machine, de modifier soi-même le fichier ou de rentrer vagrant dans le groupe sudoers.
+Pour que Vagrant modifie le fichier /etc/exports, il lui faut des droits root. Il est donc possible de renseigner le mot de passe à chaque démarrage de machine, de mettre vagrant dans le groupe sudoers ou de modifier soi-même le fichier.
 
 Il est également possible de synchroniser les dossiers avec rsync. Dans ce cas, il sera nécessaire d'utiliser rsync-auto afin de synchroniser les dossiers à chaque changements. Le partage via SMB est quant à lui disponnible que pour les hôtes Windows. 
 
