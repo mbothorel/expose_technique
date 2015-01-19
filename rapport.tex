@@ -69,33 +69,7 @@ Le système invité est entièrement indépendant de l'hôte, ce qui permet de v
   \includegraphics[width=15cm]{images_rapport/virtualisation.jpg}
 \end{center}
 
-Sur l'image ci-dessus, On peut voir le matériel en gris, puis l'hyperviseur, c'est à dire le système hôte. On voit également qu'il y a trois systèmes invités, avec leurs applications. On voit clairement que les systèmes invités sont indépendants du matériel de la machine, puisqu'il est également virtuel. On peut décider de créer un disque virtuel, comprenant un disque dur virtuel de 20Go, un processeur avec 2 cores et 4Go de RAM afin qu'une machine puisse fonctionneer
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Sur l'image ci-dessus, On peut voir le matériel en gris, puis l'hyperviseur, c'est à dire le système hôte. On voit également qu'il y a trois systèmes invités, avec leurs applications. On voit clairement que les systèmes invités sont indépendants du matériel de la machine, puisqu'il est également virtuel. On peut décider de créer un ensemble de matériel virtuel, comprenant un disque dur virtuel de 20Go, un processeur avec 2 cores et 4Go de RAM afin qu'une machine puisse fonctionneer
 
 \subsection{Qu'est-ce que la virtualisation par conteneurs ?}
 
@@ -109,7 +83,17 @@ La désavantage de cette virtualisation est qu'elle se base sur le noyau du syst
 
 De l'autre coté, cette dépendance au noyau, permet une meilleure gestion des ressources. En effet, la virtualisation par conteneurs permet de pouvoir exploiter toute la quantité de RAM de l'hôte, ainsi que tous ces processeurs.
 
-\section{Fonctionnement de Vagrant}
+\section{Vagrant}
+
+\subsection{Installation}
+Vagrant est dans les dépôts de Debian unstable en version 1.6.5, et est disponnible en version 1.7.2 sur le site officiel. Nous avons essayé la version 1.6.2 et nous nous sommes intéressés aux nouveautés de la dernière version.
+
+On peut donc récupérer le tarball sur GitHub, le récupérer grâce aux dépôts sur les dérivés de Debian et RHEL. On peut également récupérer les paquêts Deb, RPM, les executables .msi et .dmg pour Windows et OS X sur le site officiel du projet.
+
+Comme dit ci-dessus, nous avons utilisé la version du dépot Debian et du paquêts de la dernière version.
+
+
+
 \subsection{Les différents hyperviseurs pour Vagrant}
 
 \section{Fonctionnement de Docker}
