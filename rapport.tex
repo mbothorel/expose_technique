@@ -112,7 +112,7 @@ vagrant ssh
 \subsection{Partages}
 
 \subsubsection{Le partage de dossier}
-Vagrant permet de partager des dossiers entre l'hôte et l'invité. De base, le dossier partagé est celui ou est le \textit{Vagrantfile} sur l'hôte, et \textit{/vagrant} sur l'invité. Le type de partage par défaut est celui de VirtualBox si l'on utilise ce logiciel, mais d'autres existent.
+Vagrant permet de partager des dossiers entre l'hôte et l'invité. De base, le dossier partagé est celui où est le \textit{Vagrantfile} sur l'hôte, et \textit{/vagrant} sur l'invité. Le type de partage par défaut est celui de VirtualBox si l'on utilise ce logiciel, mais d'autres existent.
 
 La commande pour la synchronisation des dossiers dans le \textit{Vagrantfile} est\footnote{Le paramètre a été mis sur deux lignes pour éviter qu'il déborde de la page} :
 \begin{lstlisting}
@@ -163,6 +163,9 @@ Les différentes étapes pour installer l'image de \textit{Debian} avec Docker :
 \end{lstlisting}
 
 Après avoir démarré le service, la commande \textit{search} permet de chercher des images correspondant à nos besoins, ici debian. Dans la liste d'images retournée, certaines sont certifiées officielles par Docker. Nous avons choisi de récupérer l'image officielle de debian, il suffit d'utiliser la commande \textit{pull} pour l'installer. Ici, debian a été suffixé par \textit{jessie} pour ne récupérer que l'image correspondante de la version. L'environnement est maintenant configurer pour utiliser les conteneurs.
+
+\subsection{Utilisation des Conteneurs}
+
 
 \section{Vagrant avec Docker}
 
