@@ -113,7 +113,18 @@ vagrant ssh
 
 \subsection{Les différents hyperviseurs pour Vagrant}
 
-\section{Fonctionnement de Docker}
+\section{Docker}
+\subsection{Installation}
+Avec la dernière version de Debian, Debian 8, Docker est directement disponible dans les dépôts avec le paquet \textit{docker.io}. Il s'agit de la dernière version du logiciel, 1.4.1. Après cette installation rapide, ce qui nous intéresse c'est d'installer un conteneur. Docker va donc nous permettre de chercher un conteneur adequat suivant nos besoins et de l'installer ensuite. Nous avons décidé d'installer un environnement \textit{Debian}.
+
+Les différentes étapes pour installer l'image de \textit{Debian} avec Docker :
+\begin{lstlisting}
+  service docker start
+  docker search debian
+  docker pull debian:jessie
+\end{lstlisting}
+
+Après avoir démarré le service, la commande \textit{search} permet de chercher des images correspondant à nos besoins, ici debian. Dans la liste d'images retournée, certaines sont certifiées officielles par Docker. Nous avons choisi de récupérer l'image officielle de debian, il suffit d'utiliser la commande \textit{pull} pour l'installer. Ici, debian a été suffixé par \textit{jessie} pour ne récupérer que l'image correspondante de la version. L'environnement est maintenant configurer pour utiliser les conteneurs.
 
 \section{Vagrant avec Docker}
 
