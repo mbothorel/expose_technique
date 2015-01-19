@@ -86,11 +86,11 @@ De l'autre coté, cette dépendance au noyau, permet une meilleure gestion des r
 \section{Vagrant}
 
 \subsection{Installation}
-Vagrant est dans les dépôts de Debian unstable en version 1.6.5, et est disponnible en version 1.7.2 sur le site officiel. Nous avons essayé la version 1.6.2 et nous nous sommes intéressés aux nouveautés de la dernière version.
+Vagrant est dans les dépôts de Debian unstable en version 1.6.5, et est disponnible en version 1.7.2 sur le site officiel. Le projet Fedora ne supporte pas encore Vagrant. Malgré cela, les développeurs souhaitent le proposer pour la version 22 avec le logiciel libvirt comme hyperviseur par défaut, au lieu de VirtualBox.
 
-On peut donc récupérer le tarball sur GitHub, le récupérer grâce aux dépôts sur les dérivés de Debian et RHEL. On peut également récupérer les paquêts Deb, RPM, les executables .msi et .dmg pour Windows et OS X sur le site officiel du projet.
+On peut donc télécharger le tarball sur GitHub, le récupérer grâce aux dépôts sur Debian et ses dérivés. On peut également télécharger les paquêts Deb, RPM, les executables .msi et .dmg pour Windows et OS X sur le site officiel du projet.
 
-Comme dit ci-dessus, nous avons utilisé la version du dépot Debian et du paquêts de la dernière version.
+Nous avons utilisé les versions disponnible sur Debian unstable et la dernière, disponnible sur le site officiel.
 
 \subsection{Fonctionnement}
 \subsubsection{Lancement d'une machine virtuelle}
@@ -109,7 +109,45 @@ Au bout de quelques minutes, la machine est téléchargée et prête à être ut
 vagrant ssh
 \end{lstlisting}
 
+\subsection{Partages}
 
+\subsubsection{Le partage de dossier}
+Vagrant permet de partager des dossiers entre l'hôte et l'invité. De base, le dossier partagé est celui ou est le \textit{Vagrantfile} sur l'hôte, et \textit{/vagrant} sur l'invité. Le type de partage par défaut est celui de VirtualBox si l'on utilise ce logiciel, mais d'autres existent.
+
+La commande pour la synchronisation des dossiers dans le \textit{Vagrantfile} est\footnote{Le paramètre a été mis sur deux lignes pour éviter qu'il déborde de la page} :
+\begin{lstlisting}
+ config.vm.synced_folder "src/", "/srv/website", 
+ create: true, disabled: false, type: nfs
+\end{lstlisting}
+On peut voir ci-dessus que lors du prochain redémarrage de la machine :
+\begin{itemize}
+	\item{Le dossier src/ de l'hôte sera synchronisé avec le dossier /src/website de l'invité.}
+	\item{Le dossier de la machine hôte sera créé s'il n'existe pas.}
+	\item{Le partage sera activé.}
+	\item{Le type de partage sera NFS.}
+\end{itemize}
+Il existe également les paramètres pour définir le propriétaire du partage, le groupe du partage (tout deux SSH par défaut), et les options de montages.
+
+De plus, d'autres paramètres existent pour le partage NFS : 
+\begin{itemize}
+	\item{nfs\_export (booléen) : S'il est a false, vagrant ne modifiera pas le fichier /etc/exports utilisé par NFS.}
+	\item{nfs\_udp (booléen) : Ce paramètre sert à savoir quel protocole de transport utilisé.}
+	\item{nfs\_version (nombre) : Ce paramètre sert à déterminer la version de NFS utilisé.}
+\end{itemize}
+Pour que Vagrant modifie le fichier /etc/exports, il lui faut des droits root. Il est donc possible de renseigner le mot de passe à chaque démarrage de machine, de modifier soi-même le fichier ou de rentrer vagrant dans le groupe sudoers.
+
+Il est également possible de synchroniser les dossiers avec rsync. Dans ce cas, il sera nécessaire d'utiliser rsync-auto afin de synchroniser les dossiers à chaque changements. Le partage via SMB est quant à lui disponnible que pour les hôtes Windows. 
+
+En résumé : le partage via NFS est à privilégier car il est plus performant et a moins d'inconvéniants (un bug de VirtualBox peut entraîner des fichiers corrompus, la synchronisation automatique avec rsync est plus fastidieuse a mettre en place et SMB est disponnible que pour les hôtes Windows).
+
+\subsubsection{Le partage des machines}
+Vagrant est un logiciel collaboratif : il est possible de partager ses machines avec n'importe qui. Pour ce faire, vagrant dispose de commandes :
+\begin{lstlisting}
+vagrant share
+vagrant connect --ssh
+vagrant connect
+\end{lstlisting}
+Il faut un compte
 
 \subsection{Les différents hyperviseurs pour Vagrant}
 
@@ -131,4 +169,5 @@ Après avoir démarré le service, la commande \textit{search} permet de cherche
 \section{La concurrence}
 
 \section{Conclusion}
+
 \end{document}
