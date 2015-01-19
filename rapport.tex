@@ -194,7 +194,33 @@ Après avoir démarré le service, la commande \textit{search} permet de cherche
 
 \subsection{Utilisation des Conteneurs}
 
->>>>>>> 40973f9b2e2dca96cf83d1a55184960b2e90853e
+Le principe général d'un conteneur, est qu'il va être lancé à partir d'une image préalablement installée, pour pouvoir exécuter un ou plusieurs processus. L'initialisation d'un conteneur est toute simple, il suffit de lancer la commande \textit{run} de Docker avec le processus voulu en paramètre, ainsi que l'image avec laquelle on souhaite l'exécuter. 
+
+\begin{lstlisting}
+  docker run debian:jessie cat /etc/os-release
+\end{lstlisting}
+Cet exemple montre l'exécution du processus \textit{cat} afin d'afficher la version de notre image. Il s'agit d'un exemple basique, les conteneurs permettent bien entendu de gérer des processus plus complexes.
+
+Grâce aux conteneurs, nous pouvons améliorer notre environnement de développement, c'est à dire ajouter des outils à une image. Si nous voulons déployer un serveur web sur notre debian, nous devons l'implémenter sur notre image. Cette opération se fait via des conteneurs. Pour ce faire, cela fonctionne en trois étapes, créer un conteneur avec un terminal, installer les outils nécessaire au serveur web via le terminal et commiter l'image à partir du conteneur modifié.
+
+\begin{itemize}
+  \item{Première étape :}
+    \begin{lstlisting}
+      docker run --name lemp -it debian:jessie /bin/bash
+    \end{lstlisting}
+    Ce conteneur exécute le processus \textit{/bin/bash} à partir de l'image debian. Les options -it permettent d'avoir un terminal (t) et de recevoir les réponses sur la sortie standard (i). De plus nous avons rajoutons l'option --name pour nommer le conteneur.
+
+  \item{Deuxième étape :}
+    Il suffit d'installer les paquets nécessaires au bon fonctionnement de notre serveur web, c'est à dire les paquets concernant \textit{nginx}, \textit{mysql} et \textit{PHP}.
+
+  \item{Troisième étape :}
+    Une fois le serveur web en place, il ne reste plus qu'à sauvegarder cette configuration sur l'image initiale. Il s'agit tout simplement de faire un \textit{commit}.
+    \begin{lstlisting}
+      docker commit lemp debian:jessie
+    \end{lstlisting}
+\end{itemize}
+
+L'image qui en résulte n'écrase pas la précédente, nous nous retrouvons avec une duplication de la première avec un serveur web intégré.
 
 \section{Vagrant avec Docker}
 
