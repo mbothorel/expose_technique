@@ -92,6 +92,23 @@ On peut donc récupérer le tarball sur GitHub, le récupérer grâce aux dépô
 
 Comme dit ci-dessus, nous avons utilisé la version du dépot Debian et du paquêts de la dernière version.
 
+\subsection{Fonctionnement}
+\subsubsection{Lancement d'une machine virtuelle}
+Il est possible de lancer une machine virtuelle quelque soit le dossier dans lequel on se trouve. Néanmoins, il est préférable de créer un dossier par VMs, puisque Vagrant peuplera le dossier de fichiers de configuration.
+
+Après avoir créer un dossier correpondant à la machine voulue, les commandes : 
+\begin{lstlisting}
+vagrant init ubuntu/trusty64
+vagrant up
+\end{lstlisting}
+
+La première commande sert à créer le Vangrantfile, expliqué dans un prochain chapitre.Cele sert à initier la création de la VM. La deuxième commande télécharge le disque virtuel hébergée par Hashicorp, la société derrière Vagrant. 
+
+Au bout de quelques minutes, la machine est téléchargée et prête à être utilisé et un shell est lancer grâce à la commande : 
+\begin{lstlisting}
+vagrant ssh
+\end{lstlisting}
+
 
 
 \subsection{Les différents hyperviseurs pour Vagrant}
