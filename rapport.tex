@@ -238,6 +238,26 @@ La sécurité des VMs est également augmentée grâce à ces fonctionnalités :
 
 Hashicorp travaille actuellement sur l'ajout d'ACL et sur un moyen de changer les clés SSH automatiquement.	
 
+\subsection{L'environnement "multi-machine"}
+Le principe de l'environnement multi-machine est de configurer plusieurs systèmes avec un seul Vagrantfile, afin d'en faciliter la configuration. Dans le cas d'un projet comprenant plusieurs VMs, il peut être utile d'avoir toutes les configurations sous les yeux, en même temps.
+
+\begin{lstlisting}
+Vagrant.configure("2") do |config|
+	config.vm.define "precise" do |precise|
+		web.vm.box = "hashicorp/precise32"
+		...
+	end
+	
+	config.vm.define "trusty", autostart: false do |trusty|
+		db.vm.box = "hashicorp/trusty64"
+		...
+	end
+end
+\end{lstlisting}
+Réseau, partages, provisions... Les configurations des machines vont être dans "config.vm.define" au lieu d'être directement dans "Vagrant.configure". On peut ainsi mettre des configurations globales comme les provisions que nous verront après. L'ordre de lecture des configuration est "Dehors, dedans". C'est à dire que Vagrant liste d'abord la configuration globale, puis celle de chaque machine.
+
+	Le contrôle diffère un peu d'un projet ou une seule machine est utilisée. Bien que la commande \textit{vagrant up} démarrera toutes les machines, on peut définir le paramètre "autostart" qui empêchera le démarrage automatique. Dans ce cas, il faudra utiliser \textit{vagrant up nom\_machine} pour la démarrer. De même, il faudra utiliser \textit{vagrant ssh nom\_machine} afin de s'y connecter.
+
 \subsection{Les provisions}
 
 \subsubsection{Les provisions Shell}
@@ -316,6 +336,9 @@ end
 \end{lstlisting}
 Dans cet exemple, docker démarrera le conteneur "ubuntu", en executant bash au démarrage et . Les deux conteneurs db-1 et db-2 avec la même image "mysql".
 
+\subsubsection{Autres}
+
+D'autres types de provisions existent, comme Chef, Puppet, Salt, Ansible et CFEngine. Nous ne les détaillerons pas ici puisqu'il s'agit de logiciels complexes qui nécessitent de bien les connaître. Chaque logiciel est bien intégré à Vagrant puisqu'ils disposent de beaucoup d'options concernant les provisions.
 
 \section{Docker}
 
