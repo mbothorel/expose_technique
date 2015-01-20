@@ -266,7 +266,7 @@ Grâce aux conteneurs, nous pouvons améliorer notre environnement de développe
     \begin{lstlisting}
       docker run --name lemp -it debian:jessie /bin/bash
     \end{lstlisting}
-    Ce conteneur exécute le processus \textit{/bin/bash} à partir de l'image debian. Les options -it permettent d'avoir un terminal (t) et de recevoir les réponses sur la sortie standard (i). De plus nous avons rajoutons l'option --name pour nommer le conteneur.
+    Ce conteneur exécute le processus \textit{/bin/bash} à partir de l'image debian. Les options -it permettent d'avoir un terminal (t) et de recevoir les réponses sur la sortie standard (i). De plus nous avons rajouté l'option --name pour nommer le conteneur.
 
   \item{Deuxième étape :}
     Il suffit d'installer les paquets nécessaires au bon fonctionnement de notre serveur web, c'est à dire les paquets concernant \textit{nginx}, \textit{mysql} et \textit{PHP}.
@@ -295,6 +295,21 @@ La construction d'un Dockerfile est assez simple. Plusieurs commandes sont utili
 Faire des images c'est bien, les partager c'est mieux. En effet, il faut pouvoir les exporter ou pour une équipe de travail, ou pour les déployer sur un serveur de production. Il existe deux manière de les partager, directement sous forme d'archive pour qu'il n'y ai plus qu'à les importer sur une machine, ou alors en les partageant sur un hub, de la même façon que GitHub, le hub de Docker qui permet d'uploader les images.
 
 \subsubsection{Partage par archive}
+
+Archiver ses images est la solution la plus basique pour partager ses images. Il suffit de sauvegarder ses images dans une archive \textit{.tar} pour par la suite pouvoir les charger sur un autre hôte.
+\begin{lstlisting}
+  docker save <nom-image> > <nom-image>.tar
+\end{lstlisting}
+
+Pour déployer notre image, il suffit d'effectuer un \textit{load} sur notre archive \textit{.tar} :
+
+\begin{lstlisting}
+  docker load < <nom-archive>.tar
+\end{lstlisting}
+
+A partir de cet instant, la/les image(s) sont chargés sur votre conteneur avec tous les tags ratachés. Les archives contiennent plus exactement des dépôts et non des images brutes, il peut y avoir plusieurs versions d'une même image, mais avec des tags différents.
+
+Il existe une altérnative qui ulise des commandes de plus bas niveaux de Docker, l'import/export. Cela permet cette fois-ci de sauvegarder sous forme d'archive le système de fichiers du conteneur.
 
 \subsubsection{Partage par le hub de Docker}
 
