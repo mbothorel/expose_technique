@@ -401,9 +401,21 @@ Pour déployer notre image, il suffit d'effectuer un \textit{load} sur notre arc
 
 A partir de cet instant, la/les image(s) sont chargés sur votre conteneur avec tous les tags ratachés. Les archives contiennent plus exactement des dépôts et non des images brutes, il peut y avoir plusieurs versions d'une même image, mais avec des tags différents.
 
-Il existe une altérnative qui ulise des commandes de plus bas niveaux de Docker, l'import/export. Cela permet cette fois-ci de sauvegarder sous forme d'archive le système de fichiers du conteneur.
+Il existe une altérnative qui utilise des commandes de plus bas niveaux de Docker, l'import/export. Cela permet cette fois-ci de sauvegarder sous forme d'archive le système de fichiers du conteneur. Pour pouvoir exporter son conteneur, il faut au préalable le démarrer. Les commandes de l'import/export diffèrent de celles de la sauvegarde :
+
+\begin{lstlisting}
+  docker run -d -P conteneur
+  docker export `docker ps -lq` > nom-archive.tar
+  docker cat nom-archive.tar | docker import -
+\end{lstlisting}
+
+On lance donc le conteneur avec la commande \textit{run} et les options -d, pour blabla, et l'option -P pour blabla. L'export s'effectue à l'aide d'une sous commande \textit{docker ps -lq}. Cette commande blablabla. L'export se fera donc sur le résultat de cette sous commande. L'import utilise la commande \textit{cat} en parallèle pour afficher le contenu de l'archive et récupérer les noms générés. L'import permet également d'utiliser des URLs pour importer des conteneurs, par exemple, http://monserveurweb/monconteneur.tar.
+
+En définituve l'import/export gère les conteneurs complets contre les images seulements pour la sauvegarde, de plus il y a la gestion des URLs pour l'import/export. Au niveau de la quantité de ressources générée, l'import/export est plus léger d'environ 5\% car il ne conserve pas l'historique des modifications des images ainsi que les métas données liées au conteneur.
 
 \subsubsection{Partage par le hub de Docker}
+
+Le hub Docker est la plate-forme officielle pour gérer le stockage d'images. Il fonctionne globalement comme GitHub, c'est une communauté qui héberge des images et se les partagent librement. Chaque utilisateur souhaitant partager son contenu avec la communauté devra se créer un compte sur le hub, compte qui servira à pouvoir uploader ses images. C'est d'ailleurs ce hub qui nous a permis à l'installation de docker de trouver et de récupérer des images. Les commandes \textit{search et pull} sont reliées directement au hub.
 
 \section{Vagrant avec Docker}
 
