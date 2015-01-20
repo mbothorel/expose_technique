@@ -369,15 +369,35 @@ Il existe une altérnative qui utilise des commandes de plus bas niveaux de Dock
   docker cat nom-archive.tar | docker import -
 \end{lstlisting}
 
-On lance donc le conteneur avec la commande \textit{run} et les options -d, pour blabla, et l'option -P pour blabla. L'export s'effectue à l'aide d'une sous commande \textit{docker ps -lq}. Cette commande blablabla. L'export se fera donc sur le résultat de cette sous commande. L'import utilise la commande \textit{cat} en parallèle pour afficher le contenu de l'archive et récupérer les noms générés. L'import permet également d'utiliser des URLs pour importer des conteneurs, par exemple, http://monserveurweb/monconteneur.tar.
+On lance donc le conteneur avec la commande \textit{run} et les options -d, pour indiquer au conteneur de fonctionner en arrière-plan, et l'option -P pour préciser à Docker d'écouter tous les ports qui sont requis pour l'exécution du conteneur. L'export s'effectue à l'aide d'une sous commande \textit{docker ps -lq}. La commande \textit{ps} permet de lister la liste des conteneurs créer, le flag -lnous indique uniquement le dernier conteneur lancéet le flag -q qui signifie \textit{quiet} et qui permet de ne retourner que l'identifiant du conteneur. L'export se fera donc sur le résultat de cette sous commande. L'import utilise la commande \textit{cat} en parallèle pour afficher le contenu de l'archive et récupérer les noms générés. L'import permet également d'utiliser des URLs pour importer des conteneurs, par exemple, http://monserveurweb/monconteneur.tar.
 
 En définituve l'import/export gère les conteneurs complets contre les images seulements pour la sauvegarde, de plus il y a la gestion des URLs pour l'import/export. Au niveau de la quantité de ressources générée, l'import/export est plus léger d'environ 5\% car il ne conserve pas l'historique des modifications des images ainsi que les métas données liées au conteneur.
 
 \subsubsection{Partage par le hub de Docker}
 
-Le hub Docker est la plate-forme officielle pour gérer le stockage d'images. Il fonctionne globalement comme GitHub, c'est une communauté qui héberge des images et se les partagent librement. Chaque utilisateur souhaitant partager son contenu avec la communauté devra se créer un compte sur le hub, compte qui servira à pouvoir uploader ses images. C'est d'ailleurs ce hub qui nous a permis à l'installation de docker de trouver et de récupérer des images. Les commandes \textit{search et pull} sont reliées directement au hub.
+Le hub Docker est la plate-forme officielle pour gérer le stockage d'images. Il fonctionne globalement comme GitHub, c'est une communauté qui héberge des images et se les partagent librement. Chaque utilisateur souhaitant partager son contenu avec la communauté devra se créer un compte sur le hub, compte qui servira à pouvoir uploader ses images. C'est d'ailleurs ce hub qui nous a permis à l'installation de docker de trouver et de récupérer des images. Les commandes \textit{search et pull} sont reliées directement au hub. L'intérêt de la plate-forme est qu'elle propose un contenu détaillé et précis. En effet, il y a possibilité d'avoir toutes les informations possibles sur les dépôts des utilisateurs, selon ce qu'il a renseigné. Nous pouvons ainsi savoir comment ont été généré les images, combien de fois le dépôt à été téléchargé, et connaître les métas données de celui-ci.
 
-\section{Vagrant avec Docker}
+Pour pousser ses images sur le hub, il faut tout d'abord se connecter au service avec son identifiant, son mot de passe et son mail :
+\begin{lstlisting}
+  docker login
+\end{lstlisting}
+Après s'être authentifié une fois, un fichier de configuration \textit{.dockercfg} est généré automatiquement pour faciliter les futures connexions. Attention à la nomination de son dépôt, seules les dépôts d'images officielles peuvent avoir un nom court, nginx et debian par exemple. Par chance, chaque utilisateur possède un espace de nom correspondant à son identifiant, dans lequel il aura les droits en écriture pour pouvoir pousser ses dépôts. Pour nos dépôts nginx et debian par exemple, ils devront se nommer nom-utilisateur/nginx et nom-utilisateur/debian. Il faut donc s'assurer que nos images soient bien nommées :
+
+\begin{lstlisting}
+  docker tag debian toto/debian
+  docker tag debian:v2 toto/debian:v2
+  docker rmi debian debian:v2
+\end{lstlisting}
+
+On utilise la commande \textit{tag} de Docker pour renommer nos images. Si nous avions plusieurs tags sur une image, on s'assure de bien renommer tous les tags de cette image. Ci-dessus nous pouvons voir qu'il existait deux versions de l'image debian, les deux ont bien été renommer. Une fois renommées, nous pouvons supprimer les tags devenus inutiles avec la commande \textit{rmi} (ReMoving tagged Images).
+
+Dès que nos images sont parfaitement nommées, il ne reste plus qu'à les pousser sur le hub :
+
+\begin{lstlisting}
+  docker push toto/debian
+\end{lstlisting}
+
+Une fois toutes les images poussées, le dépôt sera visible depuis la console utilisateur. Il ne reste plus qu'à renseigner certaines informations sur le dépôt pour être complet et éventuellement ajouter des collaborateurs à celui-ci. 
 
 \section{La concurrence}
 
