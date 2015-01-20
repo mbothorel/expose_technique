@@ -238,6 +238,45 @@ La sécurité des VMs est également augmentée grâce à ces fonctionnalités :
 
 Hashicorp travaille actuellement sur l'ajout d'ACL et sur un moyen de changer les clés SSH automatiquement.	
 
+\subsection{Les provisions}
+
+La provision, avec Vagrant, permet d'installer automatiquement des logiciels ou autres configurations lors de la commande \textit{vagrant up}. 
+
+Dans le Vagrantfile, il est possible d'indiquer un script à éxecuter lors de la provision :
+\begin{lstlisting}
+config.vm.provision "apache", inline: <<-SHELL
+	sudo apt-get update
+	sudo apt-get install -y apache2
+SHELL
+\end{lstlisting}
+Ainsi, toutes les commandes entre la première et dernière ligne seront éxecutées lors de l'appel de la provision. Ici, l'appel du nom "apache" lancera l'installation d'Apache2. En effet, on peut donner des noms différents aux provisions et les appelés individuellement :
+\begin{lstlisting}
+vagrant provision
+vagrant provision-with apache sql  
+vagrant up --no-provision
+\end{lstlisting}
+La première commande lancera toutes les provisions déclarées, la deuxième seulement les provisions apache et sql. Enfin, la dernière commande lance la machine sans éxecuter de scripts.
+
+Lorsque l'on utilise plusieurs machines, il peut être intéressant de regrouper les provisions de toutes celles-ci dans un même Vagrantfile. Pour les distinguer, on définie dans quelle machine on lance telle provision :
+\begin{lstlisting}
+config.vm.provision "mysql", type: "shell", 
+	inline: "apt-get install mysql-server"
+
+config.vm.define "web" do |web|
+	web.vm.provision "php", 
+		inline: "apt-get install php5"
+	web.vm.provision "apache2", type: "shell", 
+		inline: "apt-get install apache2"
+end
+\end{lstlisting}
+
+Dans le cas ci-dessus, Apache2 et PHP5 seront installés seulement si la machine virtuelle s'appelle web. Sinon, mysql sera installé. 
+
+La provision appelée "file" permet d'envoyer un fichier vers le système invité. Cela fonctionne à travers SCP et cette provision prend en paramètre la source et la destination :
+\begin{lstlisting}
+config.vm.provision "file", source: "~/.zshrc", destination: "~/.zshrc"
+\end{lstlisting}
+
 \section{Docker}
 
 \subsection{Introduction}
