@@ -161,12 +161,38 @@ En résumé : le partage via NFS est à privilégier car il est plus performant 
 \subsubsection{Le partage des machines}
 Vagrant est un logiciel collaboratif : il est possible de partager ses machines avec n'importe qui. Pour ce faire, il faut créer un compte sur le site atlas de Vagrant. Ensuite, il suffit de lancer ces commandes :
 \begin{lstlisting}
-vagrant share [--ssh] [--http 8080]
+vagrant share
+\end{lstlisting}
+
+Cette commande lance le partage. Sans options, un partage de tous les ports disponnilbes de la machine invitée est lancé. Le résultat est une URL de la forme "http://nom.vagrantshare.com". Elle pointe vers Vagrant installé sur la machine hôte, qui a une redirection vers l'invité. Il est également possible d'activer un partage de tous les ports sauf HTTP avec la commande suivante :
+\begin{lstlisting}
+vagrant share --disable-http
+\end{lstlisting}
+
+Le HTTPS peut être activé grâce au paramètre --https. Néanmoins, nous n'avons pas réussi à faire fonctionner le partage http. En effet, nous arrivons sur une page blanche.
+
+\newpage{}
+Le partage via SSH fonctionne de la même manière, grâce à la commande
+\begin{lstlisting}
+vagrant share --ssh
+\end{lstlisting}
+Cette fois-ci, seulement le nom du partage à fournir à un collègue est retourné :
+
+\begin{center}
+	\includegraphics[width=12cm]{images_rapport/vagrantshare.jpg}
+\end{center}
+
+On peut voir sur cette image, que la machine virtuelle est bien partagée. Ainsi, il est possible pour tout le monde qui connait le nom du partage, de s'y connecter : 
+
+\begin{lstlisting}
 vagrant connect --ssh joyful-antelope-0616
 \end{lstlisting}
 
-La première commande lance le partage. 
+\begin{center}
+	\includegraphics[width=12cm]{images_rapport/vagrantconnect.jpg}
+\end{center}
 
+Cette fois, la connexion s'effectue sans problèmes et le client est connecté en SSH sur la machine virtuelle.  Ici, ce test a été effectué en local, mais il fonctionne également très bien à travers Internet.
 
 \section{Docker}
 
