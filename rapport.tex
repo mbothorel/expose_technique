@@ -296,8 +296,8 @@ L'image qui en résulte n'écrase pas la précédente, nous nous retrouvons avec
 \subsection{Les fichiers de configurations Dockerfile}
 
 La création de conteneurs manuellements est assez fastidieuse et plutôt longue si l'on souhaite installer de nombreux outils à celui-ci. C'est mà qu'intervient les \textit{Dockerfile} ! En effet, ces petits fichiers de scripts permettent d'automatiser l'installation et la personnalisation d'un conteneur. Il s'agit de la deuxième méthode pour installer une image via Docker. Il suffit de télécharger ou de créer son Dockerfile, puis de générer l'image via le fichier :
-\begin{lstliting}
-  docker build -t <tag-image-generee> .
+\begin{lstlisting}
+  docker build -t tag-image-generee
 \end{lstlisting}
 \textit{Build} prend en paramètre le répertoire du Dockerfile, ici '.' pour le répertoire courant. L'option -t permet d'identifer l'image créer via un tag.
 
