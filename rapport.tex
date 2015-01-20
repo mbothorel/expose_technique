@@ -240,9 +240,10 @@ Hashicorp travaille actuellement sur l'ajout d'ACL et sur un moyen de changer le
 
 \subsection{Les provisions}
 
-La provision, avec Vagrant, permet d'installer automatiquement des logiciels ou autres configurations lors de la commande \textit{vagrant up}. 
+\subsubsection{Les provisions Shell}
+La provision, avec Vagrant, permet d'installer automatiquement des logiciels ou de faire des configurations lors de la commande \textit{vagrant up}. 
 
-Dans le Vagrantfile, il est possible d'indiquer un script à éxecuter lors de la provision :
+Il faut indiquer les commandes à éxecuter lors de la provision dans le Vagrantfile. Dans le cas de Linux, les scripts SHELL seront lancés à travers SSH, et grâce à WinRM et PowerShell dans le cas d'une machine Windows.
 \begin{lstlisting}
 config.vm.provision "apache", inline: <<-SHELL
 	sudo apt-get update
@@ -252,7 +253,7 @@ SHELL
 Ainsi, toutes les commandes entre la première et dernière ligne seront éxecutées lors de l'appel de la provision. Ici, l'appel du nom "apache" lancera l'installation d'Apache2. En effet, on peut donner des noms différents aux provisions et les appelés individuellement :
 \begin{lstlisting}
 vagrant provision
-vagrant provision-with apache sql  
+vagrant provision provision-with apache sql  
 vagrant up --no-provision
 \end{lstlisting}
 La première commande lancera toutes les provisions déclarées, la deuxième seulement les provisions apache et sql. Enfin, la dernière commande lance la machine sans éxecuter de scripts.
@@ -270,12 +271,51 @@ config.vm.define "web" do |web|
 end
 \end{lstlisting}
 
-Dans le cas ci-dessus, Apache2 et PHP5 seront installés seulement si la machine virtuelle s'appelle web. Sinon, mysql sera installé. 
+Dans le cas ci-dessus, Apache2 et PHP5 seront installés seulement si la machine virtuelle s'appelle web. Sinon, mysql sera installé. Comme on l'a vu, on peut renseigner directement des commandes à éxecuter, mais on peut également mettre un lien vers un script plus complexe. Dans ce cas, le paramètre "path" (qui prend comme valeur une chaîne de caractère) remplacera la paramètre "inline", vu plus haut. De plus, des arguments peuvent être précisés dans un tableau ou dans une chaîne de caractère.
 
+\subsubsection{La provision File}
 La provision appelée "file" permet d'envoyer un fichier vers le système invité. Cela fonctionne à travers SCP et cette provision prend en paramètre la source et la destination :
 \begin{lstlisting}
-config.vm.provision "file", source: "~/.zshrc", destination: "~/.zshrc"
+config.vm.provision "file", source: "~/.zshrc", 
+	destination: "~/.zshrc"
 \end{lstlisting}
+
+\subsubsection{Les provisions avec Docker}
+Les provisions avec Docker peuvent installés automatiquement Docker, déployer, configurer et démarrer des conteneurs. Les provisions Docker peuvent être utilisées avec les autres sans problèmes. Il est par exemple possible d'installer des logiciels comme un SGBD, et de déployer avec Docker l'application qui utilisera cette base.
+
+Il existe plusieurs options pour utiliser Docker dans Vagrant. Si aucune n'est renseignée, Vagrant installera juste Docker dans la machine virtuelle.
+
+On peut d'abord créer un conteneur "monapplication" dans le répertoire "/mon/app" :
+\begin{lstlisting}
+config.vm.provision "docker" do |d|
+    d.build_image "/mon/app",
+		args: "-t 'monapplication'"
+end
+\end{lstlisting}
+
+On peut aussi récupérer des images de Docker, disponnible dans la catalogue de Docker, de façons différentes. La première télécharge une seule image donnée en paramètres:
+\begin{lstlisting}
+config.vm.provision "docker", images: ["nginx"]
+\end{lstlisting}
+La deuxième méthode, plus intéressante, utilise une fonction "pull\_images" qui télécharge les images données en paramètres à chaque fois qu'elle est appelée : 
+\begin{lstlisting}
+config.vm.provision "docker" do |d|
+	d.pull\_images "debian:jessie"
+	d.pull\_images "nginx"
+end
+\end{lstlisting}
+
+Pour démarrer une image Docker, il faut utiliser "run" qui peut prendre des paramètres :
+\begin{lstlisting}
+config.vm.provision "docker" do |d|
+	d.run "ubuntu",
+		cmd: "bash -l",
+	d.run "db-1", image: "mysql"
+	d.run "db-2", image: "mysql"
+end
+\end{lstlisting}
+Dans cet exemple, docker démarrera le conteneur "ubuntu", en executant bash au démarrage et . Les deux conteneurs db-1 et db-2 avec la même image "mysql".
+
 
 \section{Docker}
 
