@@ -251,6 +251,16 @@ L'image qui en résulte n'écrase pas la précédente, nous nous retrouvons avec
 
 \subsection{Les fichiers de configurations Dockerfile}
 
+La création de conteneurs manuellements est assez fastidieuse et plutôt longue si l'on souhaite installer de nombreux outils à celui-ci. C'est mà qu'intervient les \textit{Dockerfile} ! En effet, ces petits fichiers de scripts permettent d'automatiser l'installation et la personnalisation d'un conteneur. Il s'agit de la deuxième méthode pour installer une image via Docker. Il suffit de télécharger ou de créer son Dockerfile, puis de générer l'image via le fichier :
+\begin{lstliting}
+  docker build -t <tag_image_generee> .
+\end{lstlisting}
+\textit{Build} prend en paramètre le répertoire du Dockerfile, ici \``.\'' pour le répertoire courant. L'option -t permet d'identifer l'image créer via un tag.
+
+La construction d'un Dockerfile est assez simple. Plusieurs commandes sont utilisées : \textit{FROM, MAINTAINER, ENV, RUN, COPY, VOLUME, WORKDIR, CMD, ENTRYPOINT, USER, ADD et EXPOSE}. FROM sert à désigner l'image qui sert de base, MAINTAINER permet de renseigner des informations sur l'auteur de l'image générée, ENV permet de la définition de variables d'environnement, RUN permet d'exécuter les commandes qui modifieront l'image de base, COPY permet de copier des fichiers de l'hôte vers le conteneur créé, VOLUME nous permet de monter un dossier pour qu'il soit accessible depuis d'autre conteneurs, par exemple les fichiers de log (/var/log), WORKDIR permet de définir un répertoire de travail qui sera utilisé par les instructions qui suivent dans le Dockerfile, CMD ne peut être utiliser qu'une seule fois dans le Dockerfile, cela permet d'indiquer à la commande RUN quelle commande exécuter. ENTRYPOINT permet globalement le même fonctionnement que CMD, la différence est qu'ENTRYPOINT impose l'exécution de la commande. USER permet de déclarer le nom ou l'UID à utiliser pour exécuter l'image, ADD fonctionne de la même manière que COPY, sauf que cela permet plusieurs ressources ainsi que des URLs. Enfin EXPOSE, permet d'indiquer les ports sur lesquels le conteneur va écouter. 
+
+
+
 \subsection{Partage et export des images Docker}
 
 \section{Vagrant avec Docker}
