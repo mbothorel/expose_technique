@@ -81,16 +81,16 @@ De l'autre coté, cette dépendance au noyau, permet une meilleure gestion des r
   \includegraphics[width=12cm]{images_rapport/vagrant_logo.jpg}
 \end{center}
 
-\textbf{Vagrant} est un outil développé en Ruby, sous licence MIT pour créer des environnements de développements. Il se veut simple d'utilisation afin d'augmenter la productivité de l'utilisateur. Le développement de Vagrant à commencer en Janvier 2010 par Mitchell Hashimoto. Celui ci a travaillé sur Vagrant pendant 3 ans sur son temps libre, avant de créer l'entreprise \textbf{Hashicorp}, afin de continuer le projet à plein temps.
+\textbf{Vagrant} est un outil développé en Ruby, sous licence MIT pour créer des environnements de développements. Il se veut simple d'utilisation afin d'augmenter la productivité de l'utilisateur. Le développement de Vagrant à commencé en Janvier 2010 par Mitchell Hashimoto. Celui ci a travaillé sur Vagrant pendant 3 ans sur son temps libre, avant de créer l'entreprise \textbf{Hashicorp}, afin de continuer le projet à plein temps.
 
-Vagrant créé et gère des machines virtuelles à destinations des développeurs. Ces machines permettent à l'utilisateur d'effectuer des tests dans un environnement fermé, afin de ne pas casser son système d'exploitation. 
+Vagrant créé et gère des machines virtuelles à destinations des développeurs. Ces machines permettent à l'utilisateur d'effectuer des tests dans un environnement fermé, afin de ne pas affecter son système d'exploitation principal. 
 
 Vagrant met en place des machines virtuelles sur VirtualBox, VMWare (Fusion et Workstation), dans le cloud grâce à AWS d'Amazon et Openstack, et également dans des conteneurs Docker et LXC. Il est disponnible sur Windows, OS X et Linux. De plus, Red Hat a créé un plugin permettant à Vagrant de fonctionner avec KVM.
 
 Vagrant permet donc de travailler de façon sécurisée, à seul ou à plusieurs afin d'essayer des logiciels, des scripts ou autre...
 
 \subsection{Installation}
-Vagrant est dans les dépôts de Debian unstable en version 1.6.5, et est disponnible en version 1.7.2 sur le site officiel. Le projet Fedora ne supporte pas encore Vagrant. Malgré cela, les développeurs souhaitent le proposer pour la version 22 avec le logiciel libvirt comme hyperviseur par défaut, au lieu de VirtualBox.
+Vagrant est dans les dépôts de Debian unstable en version 1.6.5, et est disponnible en version 1.7.2 sur le site officiel. Le projet Fedora ne supporte pas encore Vagrant. Malgré cela, les développeurs de Fedora souhaitent le proposer pour la version 22 avec le logiciel libvirt comme hyperviseur par défaut, au lieu de VirtualBox.
 
 On peut donc télécharger le tarball sur GitHub, le récupérer grâce aux dépôts sur Debian et ses dérivés. On peut également télécharger les paquêts Deb, RPM, les executables .msi et .dmg pour Windows et OS X sur le site officiel du projet.
 
@@ -128,7 +128,7 @@ end
 \end{lstlisting}
 Le chiffre 2 signifie que la version de configuration est pour Vagrant version 1.1 ou plus, alors que les configurations pour les versions 1.0.x sont mentionnées par un 1.
 
-On peut également obligé l'utilisateur à avoir une certaine version de Vagrant (dans ce cas, une version entre la 1.3.5 et la 1.4.0) :
+On peut également obliger l'utilisateur à avoir une certaine version de Vagrant (dans ce cas, une version entre la 1.3.5 et la 1.4.0) :
 \begin{lstlisting}
 Vagrant.require_version ">= 1.3.5", "< 1.4.0"
 \end{lstlisting}
@@ -140,13 +140,26 @@ Il existe beaucoup de paramètres de configurations et sont classés comme ceci 
 	\item{Les configurations comprenant config.winrm, qui permettent à Vagrant de savoir comment accéder à une machine Windows (nom d'utilisateur, mot de passe, port...).}
 	\item{Les configurations comprenant config.vagrant, qui concernent le système hôte. Par défaut en détection automatique.}
 \end{itemize}
+En voici quelques exemples :
+\begin{lstlisting}
+config.vm.network "forwarded_port", guest: 80, host: 8080 
+# Pour rediriger le port 8080 de l'hôte vers le port 80 de l'invité
+config.vm.network "private_network", type: "dhcp" 
+# Activer une nouvelle interface en mode DHCP
+config.ssh.username
+# Change le nom d'utilisateur lors de la commande vagrant ssh
+config.ssh.private_key_path
+# Change la clé privée qu'utilise SSH
+config.winrm.host
+# L'adresse IP à laquelle se connecter (pour Windows)
+\end{lstlisting}
 
 \subsection{Partages}
 
 \subsubsection{Le partage de dossier}
-Vagrant permet de partager des dossiers entre l'hôte et l'invité. De base, le dossier partagé est celui où est le \textit{Vagrantfile} sur l'hôte, et \textit{/vagrant} sur l'invité. Le type de partage par défaut est celui de VirtualBox si l'on utilise ce logiciel, mais d'autres existent.
+Vagrant permet de partager des dossiers entre l'hôte et l'invité. De base, le dossier partagé est celui où est le Vagrantfile sur l'hôte, et /vagrant sur l'invité. Le type de partage par défaut est celui de VirtualBox si l'on utilise ce logiciel, mais d'autres existent.
 
-La commande pour la synchronisation des dossiers dans le \textit{Vagrantfile} est\footnote{Le paramètre a été mis sur deux lignes pour éviter qu'il déborde de la page} :
+La commande pour la synchronisation des dossiers dans le Vagrantfile est\footnote{Le paramètre a été mis sur deux lignes pour éviter qu'il déborde de la page} :
 \begin{lstlisting}
  config.vm.synced_folder "src/", "/srv/website", 
  create: true, disabled: false, type: nfs
@@ -166,26 +179,26 @@ De plus, d'autres paramètres existent pour le partage NFS :
 	\item{nfs\_udp (booléen) : Ce paramètre sert à savoir quel protocole de transport utilisé.}
 	\item{nfs\_version (nombre) : Ce paramètre sert à déterminer la version de NFS utilisé.}
 \end{itemize}
-Pour que Vagrant modifie le fichier /etc/exports, il lui faut des droits root. Il est donc possible de renseigner le mot de passe à chaque démarrage de machine, de mettre vagrant dans le groupe sudoers ou de modifier soi-même le fichier.
+Pour que Vagrant modifie le fichier /etc/exports utilisé par NFS, il lui faut des droits root. Il est donc possible de renseigner le mot de passe à chaque démarrage de machine, de mettre vagrant dans le groupe sudoers ou de modifier soi-même le fichier.
 
-Il est également possible de synchroniser les dossiers avec rsync. Dans ce cas, il sera nécessaire d'utiliser rsync-auto afin de synchroniser les dossiers à chaque changements. Le partage via SMB est quant à lui disponnible que pour les hôtes Windows. 
+Il est également possible de partager les dossiers avec rsync. Dans ce cas, il sera nécessaire d'utiliser rsync-auto afin de synchroniser les dossiers à chaque changements. Le partage via SMB est quant à lui disponnible que pour les hôtes Windows. 
 
-En résumé : le partage via NFS est à privilégier car il est plus performant et a moins d'inconvéniants (un bug de VirtualBox peut entraîner des fichiers corrompus, la synchronisation automatique avec rsync est plus fastidieuse a mettre en place et SMB est disponnible que pour les hôtes Windows).
+Le partage via NFS est à privilégier car il est plus performant et a moins d'inconvéniants (un bug de VirtualBox peut entraîner des fichiers corrompus, la synchronisation automatique avec rsync est plus fastidieuse a mettre en place et SMB n'est disponnible que pour les hôtes Windows).
 
 \subsubsection{Le partage des machines}
-Vagrant est un logiciel collaboratif : il est possible de partager ses machines avec n'importe qui. Pour ce faire, il faut créer un compte sur le site atlas de Vagrant. Ensuite, il suffit de lancer ces commandes :
+Vagrant est un logiciel collaboratif : il est possible de faire profiter de ses machines avec n'importe qui. Pour ce faire, il faut créer un compte sur le site atlas de Vagrant et de s'y connecter avec \textit{vagrant login}. Ensuite, il suffit de lancer ces commandes :
 \begin{lstlisting}
 vagrant share
 \end{lstlisting}
 
-Cette commande lance le partage. Sans options, tous les ports disponnilbes de la machine invitée sont partagés. Le résultat est une URL de la forme "http://nom.vagrantshare.com". Elle pointe vers Vagrant installé sur la machine hôte, qui a une redirection vers l'invité. Il est également possible d'activer un partage de tous les ports sauf HTTP avec la commande suivante :
-\begin{lstlisting}
-vagrant share --disable-http
-\end{lstlisting}
+Cette commande lance le partage. Sans options, tous les ports disponnibles de la machine invitée sont partagés. Le résultat est une URL de la forme "http://nom.vagrantshare.com". Elle pointe vers Vagrant installé sur la machine hôte, qui a une redirection vers l'invité. Le HTTPS peut être activé grâce au paramètre --https.
 
-Le HTTPS peut être activé grâce au paramètre --https. Néanmoins, nous n'avons pas réussi à faire fonctionner le partage http\footnote{Le détail des erreurs rencontrées est disponnible en annexe 1}.
+On peut voir sur l'image suivante que le partage est lancé, et qu'un client est connecté grâce à l'URL fournie par Vagrant.
 
-\newpage{}
+\begin{center}
+	\includegraphics[width=13cm]{images_rapport/sharehttp.jpg}
+\end{center}
+
 Le partage via SSH fonctionne de la même manière, grâce à la commande
 \begin{lstlisting}
 vagrant share --ssh
@@ -196,7 +209,7 @@ Cette fois-ci, seulement le nom du partage à fournir à un collègue est retour
 	\includegraphics[width=12cm]{images_rapport/vagrantshare.jpg}
 \end{center}
 
-On peut voir sur cette image, que la machine virtuelle est bien partagée. Ainsi, il est possible pour tout le monde qui connait le nom du partage, de s'y connecter : 
+On peut voir sur cette image, que la machine virtuelle est bien partagée. Ainsi, il est possible pour quiconque connait le nom du partage, de s'y connecter : 
 
 \begin{lstlisting}
 vagrant connect --ssh exquisite-reindeer-4943
@@ -206,7 +219,7 @@ vagrant connect --ssh exquisite-reindeer-4943
 	\includegraphics[width=12cm]{images_rapport/vagrantconnect.jpg}
 \end{center}
 
-Cette fois, la connexion s'effectue sans problèmes et le client est connecté en SSH sur la machine virtuelle.  Ici, ce test a été effectué en local, mais il fonctionne également très bien à travers Internet.
+La connexion s'effectue sans problèmes et le client est connecté en SSH sur la machine virtuelle.  Ici, ce test a été effectué en local, mais il fonctionne également très bien à travers Internet.
 
 Une autre possibilité est fort intéressante. Lorsque l'on partage une machine, un collaborateur peur effectuer la commande \textit{vagrant connect NAME} afin d'avoir une nouvelle adresse IP qui renvoie tous les flux TCP/IP vers la première machine virtuelle. Concrètement, la connection créé une machine virtuelle sur le poste du collaborateur, un proxy qui redirige toutes les connections vers la machine partagée. Cette nouvelle machine est très légère puisqu'elle consomme environ 20Mo de RAM sur VirtualBox ou VMWare. Par contre, il est vivement recommandé de changer les clés SSH qui sont avec le disque virutel lors du téléchargement. En effet, quiconque connait le nom de la machine peut donc s'y connecter. 
 
@@ -220,10 +233,10 @@ La sécurité des VMs est également augmentée grâce à ces fonctionnalités :
 	\item{Le traffic est toujours chiffré à l'aide de TLS.}
 	\item{Il existe quarante millions de noms différents pour le partage des machines.}
 	\item{Lors d'un partage à travers SSH, la clé SSH est chiffée lors de la transmission.}
-	\item{Les partages d'une une heure, sauf si on la coupe manuellement avec ctrl-c.}
+	\item{Les partages durent une heure, sauf si on la coupe manuellement avec ctrl-c.}
 \end{itemize}
 
-Hashicorp travaille actuellement sur l'ajout d'ACL et d'un moyen de changer les clés SSH automatiquement.	
+Hashicorp travaille actuellement sur l'ajout d'ACL et sur un moyen de changer les clés SSH automatiquement.	
 
 \section{Docker}
 
@@ -290,8 +303,4 @@ L'image qui en résulte n'écrase pas la précédente, nous nous retrouvons avec
 
 \section{Conclusion}
 
-\begin{appendix}
-\section{Les erreurs du partage HTTP avec Vagrant}
-
-\end{appendix}
 \end{document}
