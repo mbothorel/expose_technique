@@ -166,7 +166,7 @@
         \end{alertblock}
     \end{frame}
 
-    \begin{frame}[containsverbatim]{Les provisions}
+    \begin{frame}[containsverbatim]{Les provisions shell}
         Les provisions permettent d'automatiser des installations ou scripts lors de la commande vagrant up :
         \begin{minted}[fontsize=\scriptsize]{ruby}
             config.vm.provision "apache", inline: <--SHELL
@@ -181,7 +181,7 @@
         \end{itemize}
     \end{frame}
 
-    \begin{frame}[containsverbatim]{Les provisions}
+    \begin{frame}[containsverbatim]{Les provisions shell}
         Il est possible de combiner les provisions avec un environnement multi-machine :
         \begin{minted}[fontsize=\scriptsize]{ruby}
             config.vm.provision "mysql", type: "shell", 
@@ -196,6 +196,16 @@
         \end{minted}
     \end{frame}
 
+    \begin{frame}[containsverbatim]{Les provisions file}
+        La provision nommée "file" permet d'envoyer un fichier vers le système invité :
+        \begin{minted}[fontsize=\scriptsize]{ruby}
+        config.vm.provision "file", source: ".zshrc", destination "/home/user/.zshrc"
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}[containsverbatim]{Les provisions Docker}
+        Les provisions Docker permettent de créer, déployer, configurer et démarrer des conteneurs : 
+    \end{frame}
     
     
     
