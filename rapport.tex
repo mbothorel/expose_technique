@@ -254,7 +254,7 @@ Vagrant.configure("2") do |config|
 	end
 end
 \end{lstlisting}
-Réseau, partages, provisions... Les configurations des machines vont être dans "config.vm.define" au lieu d'être directement dans "Vagrant.configure". On peut ainsi mettre des configurations globales comme les provisions que nous verront après. L'ordre de lecture des configurations est "Dehors, dedans". C'est à dire que Vagrant liste d'abord la configuration globale, puis celle de chaque machine.
+Réseau, partages, provisions... Les configurations des machines vont être dans "config.vm.define" au lieu d'être directement dans "Vagrant.configure". On peut ainsi mettre des configurations globales comme les provisions que nous verrons après. L'ordre de lecture des configurations est "Dehors, dedans". C'est à dire que Vagrant liste d'abord la configuration globale, puis celle de chaque machine.
 
 	Le contrôle diffère un peu d'un projet ou une seule machine est utilisée. Bien que la commande \textit{vagrant up} démarrera toutes les machines, on peut définir le paramètre "autostart" qui empêchera le démarrage automatique. Dans ce cas, il faudra utiliser \textit{vagrant up nom\_machine} pour la démarrer. De même, il faudra utiliser \textit{vagrant ssh nom\_machine} afin de s'y connecter.
 
@@ -334,7 +334,7 @@ config.vm.provision "docker" do |d|
 	d.run "db-2", image: "mysql"
 end
 \end{lstlisting}
-Dans cet exemple, Docker démarrera le conteneur "ubuntu", en exécutant bash au démarrage et . Les deux conteneurs db-1 et db-2 avec la même image "mysql".
+Dans cet exemple, Docker démarrera le conteneur "ubuntu", en exécutant bash au démarrage. Les deux conteneurs db-1 et db-2 avec la même image "mysql".
 
 \subsubsection{Autres}
 
@@ -424,7 +424,7 @@ end
 
 \newpage
 
-\textbf{Docker} est une plate-forme de virtualisation par conteneurs développé en Go, sous licence Apache 2.0. Le but de cette plate-forme est d'empaqueter des applications, afin de permettre le déploiement de celles-ci sur n'importe quel type d'environnement. C'est Solomon Hykes qui crée ce projet avec la contribution de deux autres développeurs, Andrea Luzzardi et François-Xavier Bourlet qui travaillaient à ses cotés au sein de \textit{dotCloud}. Le projet est officiellement distribué à partir de Mars 2013. Il est toujours actif à ce jour et fortement populaire sur le gestionnaire de versions collaboratives \textit{GitHub}.
+\textbf{Docker} est une plate-forme de virtualisation par conteneurs développée en Go, sous licence Apache 2.0. Le but de cette plate-forme est d'empaqueter des applications, afin de permettre le déploiement de celles-ci sur n'importe quel type d'environnement. C'est Solomon Hykes qui crée ce projet avec la contribution de deux autres développeurs, Andrea Luzzardi et François-Xavier Bourlet qui travaillaient à ses cotés au sein de \textit{dotCloud}. Le projet est officiellement distribué à partir de Mars 2013. Il est toujours actif à ce jour et fortement populaire sur le gestionnaire de versions collaboratives \textit{GitHub}.
 
 L'avantage de Docker est qu'il n'intègre pas de système d'exploitation, il est directement lié au système qui l'héberge, évitant ainsi d'être gourmand en ressources. Le fait qu'il soit aussi indépendant offre la possibilité d'avoir un développement totalement transparent et rapide à intégrer. 
 
