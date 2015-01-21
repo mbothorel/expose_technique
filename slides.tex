@@ -5,6 +5,7 @@
 \usepackage[T1]{fontenc}		% Pour le codage latin
 \usepackage{helvet}				% Police helvet
 \usepackage{hyperref}			% Lien externe
+\usepackage{listings}   % code source
 
 \usetheme{Warsaw}				% Thème Warsaw
 
@@ -35,7 +36,7 @@
     \end{frame}
     
     \section{Vagrant}
-    \subsubsection{Introduction}
+    \subsection{Introduction}
     
     \begin{frame}{Vagrant}
         \begin{center}
@@ -44,26 +45,46 @@
         \begin{itemize}
             \item{Développer en Ruby sous licence MIT}
             \item{Créé en 2010 par Mitchell Hashimoto}
-            \pause
+            \pause{}
             \item{Utilise des machines virtuelles}
             \item{Public cible : Les développeurs}
         \end{itemize}
     \end{frame}
 
-    \subsubsection{Utilisation basique}
-    \begin{frame}
+    \subsection{Utilisation basique}
+    \begin{frame}{Utilisation}
         \begin{itemize}
             \item{vagrant init hashicorp/trusty64}
             \item{vagrant up}
             \item{ssh}
         \end{itemize}
-
-        \begin{itemize}
-            \item{Les Vagrantfile sont les fichiers de configurations}
-            \item{Vagrant va chercher le Vagrantfile en remontant l'arborescence}
-        \end{itemize}
+        \pause{}
+        \begin{block}{Vagrantfile}
+            Les Vagrantfile sont les fichiers de configurations. Vagrant va chercher le Vagrantfile en remontant l'arborescence.
+        \end{block}
     \end{frame}
     
+    \subsection{Configuration}
+    \begin{frame}{Vagrantfile}
+        Il existe plusieurs Vagrantfiles. Ils sont tous lus dans un certain ordre :
+        \begin{enumerate}
+            \item{Le Vagrantfile téléchargé avec la machine.}
+            \item{Un Vagrantfile dans le soddier /home/user/.vagrant.d.}
+            \item{Le Vagrantfile créé lors de la commande vagrant init.}
+            \item{Si le dernier n'existe pas : un Vagrantfile qui concerne plusieurs machines.}
+            \item{Si le dernier n'existe pas non plus : un Vagrantfile qui concerne l'hyperviseur.}
+        \end{enumerate}
+    \end{frame}
     
+    \begin{frame}{Quelques configurations}
+        Les Vagrantfile sont écrits en Ruby :\newline{}
+        \em{Vagrant.configure(2) do |config| \\
+                config.vm.network "forwarded\_port", guest: 80, host: 8080\\
+                config.vm.network "private\_network", type: "dhcp"\\
+                config.ssh.username\\
+                config.ssh.private\_key\_path\\
+                config.winrm.host\\
+            end}
+    \end{frame}
     \section{Docker}
 \end{document}
