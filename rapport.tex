@@ -105,7 +105,7 @@ vagrant up
 vagrant ssh
 \end{lstlisting}
 
-La première commande sert à créer un Vangrantfile, un fichier de configuration de la machine. La deuxième commande télécharge le disque virtuel hébergé par Hashicorp\footnote{Hashicorp a créé un \href{https://atlas.hashicorp.com/boxes/search}{annuaire de machines}, afin d'en faciliter le téléchargement}, la société derrière Vagrant.
+La première commande sert à créer un Vangrantfile, un fichier de configuration de la machine. La deuxième commande télécharge le disque virtuel hébergé par l'Atlas d'Hashicorp\footnote{Hashicorp a créé un \href{https://atlas.hashicorp.com/boxes/search}{annuaire de machines}, l'Atlas, afin d'en faciliter le téléchargement}, la société derrière Vagrant.
 Au bout de quelques minutes, la machine est téléchargée et prête à être utilisée. Un shell est lancé grâce à la dernière commande. 
 
 Lorsqu'une commande de Vagrant est utilisée, celui-ci remonte l'arborescence afin de trouver le Vagrantfile. On peut changer le répertoire à partir duquel Vagrant lance la recherche grâce à la variable d'environnement VAGRANT\_CWD. 
@@ -186,7 +186,7 @@ Il est également possible de partager les dossiers avec rsync. Dans ce cas, il 
 Le partage via NFS est à privilégier car il est plus performant et a moins d'inconvéniants (un bug de VirtualBox peut entraîner des fichiers corrompus, la synchronisation automatique avec rsync est plus fastidieuse a mettre en place et SMB n'est disponnible que pour les hôtes Windows).
 
 \subsubsection{Le partage des machines}
-Vagrant est un logiciel collaboratif : il est possible de faire profiter de ses machines avec n'importe qui. Pour ce faire, il faut créer un compte sur le site atlas de Vagrant et de s'y connecter avec \textit{vagrant login}. Ensuite, il suffit de lancer ces commandes :
+Vagrant est un logiciel collaboratif : il est possible de faire profiter de ses machines avec n'importe qui. Pour ce faire, il faut créer un compte sur le site Atlas de Vagrant et de s'y connecter avec \textit{vagrant login}. Ensuite, il suffit de lancer ces commandes :
 \begin{lstlisting}
 vagrant share
 \end{lstlisting}
@@ -320,8 +320,8 @@ config.vm.provision "docker", images: ["nginx"]
 La deuxième méthode, plus intéressante, utilise une fonction "pull\_images" qui télécharge les images données en paramètres à chaque fois qu'elle est appelée : 
 \begin{lstlisting}
 config.vm.provision "docker" do |d|
-	d.pull\_images "debian:jessie"
-	d.pull\_images "nginx"
+	d.pull_images "debian:jessie"
+	d.pull_images "nginx"
 end
 \end{lstlisting}
 
@@ -339,6 +339,81 @@ Dans cet exemple, docker démarrera le conteneur "ubuntu", en executant bash au 
 \subsubsection{Autres}
 
 D'autres types de provisions existent, comme Chef, Puppet, Salt, Ansible et CFEngine. Nous ne les détaillerons pas ici puisqu'il s'agit de logiciels complexes qui nécessitent de bien les connaître. Chaque logiciel est bien intégré à Vagrant puisqu'ils disposent de beaucoup d'options concernant les provisions.
+
+\subsection{Créer ses propres machines}
+Il peut être utile de créer ses propres boxes, afin de déployer ou partager ses machines. la commande diffère d'un hyperviseur à l'autre, 
+
+Pour faire une machine de base à déployer sur l'Atlas, il est demandé :
+\begin{itemize}
+	\item{La première interface doit être "adapter1" et être en NAT}
+	\item{De créer un utilisateur "vagrant" avec le mot de passe "vagrant".}
+	\item{Que le mot de passe root soit "vagrant".}
+	\item{Que sudo ne demande pas de mot de passe (pour que Vagrant puisse configurer le réseau et monter les dossiers partagés).}
+	\item{De mettre l'option "UseDNS" à "no" dans le serveur SSH, afin d'augmenter la vitesse lorsque la machine n'est pas connectée à Internet}
+	\item{D'installer les logiciels additionnels des hyperviseurs}
+\end{itemize}
+
+Afin d'empaqueter la machine, il faut utiliser la commande \textit{vagrant package --base nom\_machine} pour VirtualBox (ou le nom de la machine est celui utilisé par VirtualBox). Le contenu du .box créé doit être :
+\begin{lstlisting}
+Vagrantfile
+box-disk1.vmdk
+box.ovf
+metadata.json
+\end{lstlisting}
+
+Dans le cas de VMWare, le disque virtuel doit être défragmenté avec \textit{vmware-vdiskmanager}, empaqueter à la main avec \textit{tar cvzf custom.box ./*} donc le contenu doit être :
+\begin{lstlisting}
+disk-s001.vmdk
+disk-s002.vmdk
+disk.vmdkmetadata.json
+precise64.nvram
+precise64.vmsd
+precise64.vmx
+precise64.vmxf
+\end{lstlisting}
+
+\subsection{Partager ses machines virtuelles}
+Depuis la version 1.7, Vagrant permet de partager sa machine virtuelle à travers le réseau. On peut s'en servir pour la sauvegarder sur un serveur FTP, la donner à un collaborateur, et également la partager sur l'Atlas de Vagrant.
+
+\subsubsection{Le partage FTP/SFTP}
+Pour envoyer sa machine sur un serveur FTP ou SFTP, il rajouter une catégorie de configuration dans le Vagantfile :
+\begin{lstlisting}
+config.push.define "ftp" do |push|
+	push.host = "ftp.mondomaine.com"
+	push.username = "username"
+	push.password = "password"
+	push.secure = true
+	push.destination = "/home/me"
+	push.exclude = ".test"
+end
+\end{lstlisting}
+Avec la configuration ci-dessus, on est capable d'envoyer sa machine virtuelle avec la commande \textit{vagrant push}. Dans ce cas, la machine sera envoyer en SFTP dans le dossier /home/me de la machine distante et le dossier ".test" ne sera pas envoyé.
+
+\subsubsection{Le partage sur l'Atlas}
+Pour l'envoyer sur l'annuaire des machines d'Hashicorp, le principe est le même :
+\begin{lstlisting}
+config.push.define "atlas" do |push|
+  push.app = "mbothorel/debian8"
+end
+\end{lstlisting}
+Il est également possible d'inclure ou d'exclure des dossiers à transférer, de modifier l'adresse de l'Atlas (par défaut l'Atlas public) ou encore d'utiliser un système de version de fichier pour déterminer les fichiers à envoyer.
+
+\subsubsection{Stratégie locale}
+De la même manière il est possible d'utiliser un script SHELL pour copier ou envoyer la machine.
+\begin{lstlisting}
+config.push.define "local-exec" do |push|
+  push.inline = <<-SCRIPT
+    scp . /var/www/website
+	scp . user@host:~
+  SCRIPT
+end
+\end{lstlisting}
+On peut voir ci-dessus que les commandes entre les deux "SCRIPT" seront éxecutées. C'est à dire la copie vers un répertoire local et la copie distante. Comme pour les provisions, la synthaxe accepte aussi le chemin vers un script :
+\begin{lstlisting}
+config.push.define "local-exec" do |push|
+  push.script = "~/mon\_script.sh"
+end
+\end{lstlisting}
 
 \section{Docker}
 
