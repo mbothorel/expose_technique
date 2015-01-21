@@ -5,6 +5,8 @@
 \usepackage[T1]{fontenc}		% Pour le codage latin
 \usepackage{helvet}				% Police helvet
 \usepackage{hyperref}			% Lien externe
+\usepackage{listings}   % code source
+\usepackage{minted}
 
 \usetheme{Warsaw}				% Thème Warsaw
 
@@ -35,7 +37,7 @@
     \end{frame}
     
     \section{Vagrant}
-    \subsubsection{Introduction}
+    \subsection{Introduction}
     
     \begin{frame}{Vagrant}
         \begin{center}
@@ -44,48 +46,61 @@
         \begin{itemize}
             \item{Développer en Ruby sous licence MIT}
             \item{Créé en 2010 par Mitchell Hashimoto}
-            \pause
+            \pause{}
             \item{Utilise des machines virtuelles}
             \item{Public cible : Les développeurs}
         \end{itemize}
     \end{frame}
 
     \subsection{Utilisation basique}
-    \begin{frame}
+    \begin{frame}{Utilisation}
         \begin{itemize}
             \item{vagrant init hashicorp/trusty64}
             \item{vagrant up}
             \item{ssh}
         \end{itemize}
-
-        \begin{itemize}
-            \item{Les Vagrantfile sont les fichiers de configurations}
-            \item{Vagrant va chercher le Vagrantfile en remontant l'arborescence}
-        \end{itemize}
+        \pause{}
+        \begin{block}{Vagrantfile}
+            Les Vagrantfile sont les fichiers de configurations. Vagrant va chercher le Vagrantfile en remontant l'arborescence.
+        \end{block}
     \end{frame}
 
-    \subsection{Fichiers de configuration}
-    \begin{frame}
-    \end{frame}
-    
-    \subsection{Partages}
-    \begin{frame}
-    \end{frame}
-
-    \subsection{L'environnement ``multi-machines''}
-    \begin{frame}
-    \end{frame}
-
-    \subsection{Les provisions}
-    \begin{frame}
+    \subsection{Configuration}
+    \begin{frame}{Vagrantfile}
+        Il existe plusieurs Vagrantfiles. Ils sont tous lus dans un certain ordre :
+        \begin{enumerate}
+            \item{Le Vagrantfile téléchargé avec la machine.}
+            \item{Un Vagrantfile dans le soddier /home/user/.vagrant.d.}
+            \item{Le Vagrantfile créé lors de la commande vagrant init.}
+            \item{Si le dernier n'existe pas : un Vagrantfile qui concerne plusieurs machines.}
+            \item{Si le dernier n'existe pas non plus : un Vagrantfile qui concerne l'hyperviseur.}
+        \end{enumerate}
     \end{frame}
 
-    \subsection{Créer ses propres machines}
-    \begin{frame}
+    \begin{frame}[containsverbatim]{Quelques exemples}
+        Les Vagrantfile sont écrits en Ruby. Voici quelques exemples de configurations :
+        \begin{minted}[fontsize=\scriptsize]{ruby}
+        Vagrant.configure(2) do |config|
+            config.vm.network "forwarded_port", guest : 80, host : 8080
+            config.vm.network "private_network", type : "dhcp"
+            config.ssh.username
+            config.ssh.private_key_path
+            config.winrm.host
+        end
+        \end{minted}
     \end{frame}
 
-    \subsection{Partager ses machines virtuelles}
-    \begin{frame}
+    \subsection{Utilisation avancée}
+    \begin{frame}{Partage de dossiers}
+    \end{frame}
+
+    \begin{frame}{Partage sur le réseau}
+    \end{frame}
+
+    \begin{frame}{Créer ses propres machines}
+    \end{frame}
+
+    \begin{frame}{Partager ses machines virtuelles}
     \end{frame}
 
 % ================= Section Docker =======================
