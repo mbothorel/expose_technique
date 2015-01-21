@@ -78,7 +78,13 @@
     \end{frame}
 
     \begin{frame}[containsverbatim]{Quelques exemples}
-        Les Vagrantfile sont écrits en Ruby. Voici quelques exemples de configurations :
+        Il existe 4 types de configurations :
+        \begin{itemize}
+            \item{config.vm : la machine virtuelle en général}
+            \item{config.ssh : la configuration SSH de la machine hôte}
+            \item{config.winrm : la connexion à une machine Windows}
+            \item{config.vagrant : concerne l'hôte}
+        \end{itemize}
         \begin{minted}[fontsize=\scriptsize]{ruby}
         Vagrant.configure(2) do |config|
             config.vm.network "forwarded_port", guest : 80, host : 8080
