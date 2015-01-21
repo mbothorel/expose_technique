@@ -89,7 +89,7 @@
         Vagrant.configure(2) do |config|
             config.vm.network "forwarded_port", guest : 80, host : 8080
             config.vm.network "private_network", type : "dhcp"
-            config.ssh.username
+            config.ssh.username 
             config.ssh.private_key_path
             config.winrm.host
         end
@@ -98,7 +98,28 @@
 
     \subsection{Utilisation avancée}
     \begin{frame}{Partage de dossiers}
+        Il existe plusieurs type de partage de dossiers :
+        \begin{itemize}
+            \item{Partage via Samba, uniquement pour Windows}
+            \item{Partage via l'hyperviseur, par défaut}
+            \item{Partage via rsync avec rsync-auto}
+            \item{Partage via NFS, recommandé}
+        \end{itemize}
     \end{frame}
+
+    \begin{frame}[containsverbatim]{Quelques exemples}
+        \begin{minted}[fontsize=\scriptsize]{ruby}
+            config.vm.synced_folder "src/", "/srv/website",
+                create: true, disabled: false, type: nfs
+            \end{minted}
+            Il existe plus d'options pour gérer les partages NFS :
+            \begin{itemize}
+                \item{nfs\_export : S'il est à "false", vagrant ne modifiera pas le fichier /etc/exports}
+                \item{nfs\_udp : Le protocole de transport à utiliser}
+                \item{nfs\_version : détermine le protocole de transport à utilisé}
+            \end{itemize}
+        \end{frame}
+        
 
     \begin{frame}{Partage sur le réseau}
     \end{frame}
