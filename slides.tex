@@ -358,34 +358,77 @@
     \begin{frame}
        \begin{itemize}
           \item{Automatisation de la création d'un conteneur}
-          
+	  \item{Possibilité de voir la configuration d'un conteneur}
        \end{itemize}
     \end{frame}
 
     \subsection{Partage et export des images Docker}
-    \begin{frame}
-       %\begin{itemize}
-       %\end{itemize}
+    \begin{frame}[containsverbatim]{Avec des archives}
+       \begin{itemize}
+          \item{Sauvegarde des images avec la commande \em{save}}
+       \end{itemize}
+       
+        \begin{exampleblock}
+          \begin{minted}[fontsize=\scriptsize]{bash}
+             docker save <nom-image> <nom-archive>.tar
+             ...
+             docker load <nom-archive>.tar
+          \end{minted}
+       \end{exampleblock}
+
+       \begin{itemize}
+          \item{Sauvegarde des conteneurs avec la commande \em{export}}
+       \end{itemize}
+
+       \begin{exampleblock}
+          \begin{minted}[fontsize=\scriptsize]{bash}
+             docker run -d -P <conteneur>
+             docker export `docker ps -lq` > <nom-archive>.tar
+             docker cat <nom-archive>.tar | docker import -
+          \end{minted}
+       \end{exampleblock}
     \end{frame}
 
-    \subsubsection{Partage par archive}
-    \begin{frame}
+    \begin{frame}[containsverbatim]{Via le hub de Docker}
+       \begin{itemize}
+          \item{Plate-forme officielle pour gérer le stockage d'images, comme GitHub}
+          \item{Quelque pré-requis avant de pousser des images sur le hub :}
+             \begin{itemize}
+                \item{Création d'un compte utilisateur Docker (Gratuit)}
+                \item{Standard de nommage des images à pousser}
+             \end{itemize}
+       \end{itemize}
+       
+       \begin{exampleblock}
+          \begin{minted}[fontsize=\scriptsize]{bash}
+             docker login
+             docker tag debian toto/debian
+             docker rmi debian
+             docker push toto/debian
+          \end{minted}
+       \end{exampleblock}
     \end{frame}
 
-    \subsubsection{Partage par le hub de Docker}
-    \begin{frame}
-    \end{frame}
+    
 
 % ================== Concurrence ========================
 
     \section{La concurrence}
     \begin{frame}
+       \begin{itemize}
+          \item{Les principaux concurrents de Docker se basent sur Docker}
+          \item{Vagrant n'as pas réellement de concurrents directs}
+          \item{Vagrant et Docker sont plus complémentaires que concurrents}
+       \end{itemize}
     \end{frame}
+
 
 % ================== Conclusion =========================
 
     \section{Conclusion}
     \begin{frame}
+       \begin{itemize}
+          \item{Vagrant et Docker permettent de créer des environnements de développement portables}
+          \item{Ils sont une bonne alternative pour développer avec sureté}
+       \end{itemize}
     \end{frame}
-
-\end{document}
