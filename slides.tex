@@ -241,7 +241,7 @@
     
     
     
-    % ================= Section Docker =======================
+% ================= Section Docker =======================
     
     \section{Docker}
     \subsection{Introduction}
@@ -264,26 +264,52 @@
     \end{frame}
 
     \subsection{Utilisation des Conteneurs}
-    \begin{frame}
+    \begin{frame}[containsverbatim]
        \begin{itemize}
           \item{Qu'est-ce qu'un conteneur ?}
           \item{Lancer un conteneur à partir d'une image}
           \item{Déployer des outils avec le conteneur}
        \end{itemize}
-       \begin{exampleblock}{}
-          \em{}
+     
+       \begin{exampleblock}{Démarrer un conteneur avec un shell}
+          \begin{minted}[fontsize=\scriptsize]{bash}
+             docker run -it debian:jessie /bin/bash
+          \end{minted}
        \end{exampleblock}
     \end{frame}
 
     \subsection{Les fichiers de configurations Dockerfile}
+    \begin{frame}
+       \begin{itemize}
+          \item{Automatisation de la création d'un conteneur}
+          
+       \end{itemize}
+    \end{frame}
 
     \subsection{Partage et export des images Docker}
+    \begin{frame}
+       \begin{itemize}
+       \end{itemize}
+    \end{frame}
+
     \subsubsection{Partage par archive}
+    \begin{frame}
+    \end{frame}
+
     \subsubsection{Partage par le hub de Docker}
+    \begin{frame}
+    \end{frame}
 
 % ================== Concurrence ========================
 
+    \section{La concurrence}
+    \begin{frame}
+    \end{frame}
 
 % ================== Conclusion =========================
+
+    \section{Conclusion}
+    \begin{frame}
+    \end{frame}
 
 \end{document}
