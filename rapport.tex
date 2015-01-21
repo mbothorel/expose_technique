@@ -85,14 +85,14 @@ De l'autre coté, cette dépendance au noyau, permet une meilleure gestion des r
 
 Vagrant créé et gère des machines virtuelles à destinations des développeurs. Ces machines permettent à l'utilisateur d'effectuer des tests dans un environnement fermé, afin de ne pas affecter son système d'exploitation principal. 
 
-Vagrant met en place des machines virtuelles sur VirtualBox, VMWare (Fusion et Workstation), dans le cloud grâce à AWS d'Amazon et Openstack, et également dans des conteneurs Docker et LXC. Il est disponnible sur Windows, OS X et Linux. De plus, Red Hat a créé un plugin permettant à Vagrant de fonctionner avec KVM.
+Vagrant met en place des machines virtuelles sur VirtualBox, VMWare (Fusion et Workstation), dans le cloud grâce à AWS d'Amazon et Openstack, et également dans des conteneurs Docker et LXC. Il est disponible sur Windows, OS X et Linux. De plus, Red Hat a créé un plugin permettant à Vagrant de fonctionner avec KVM.
 
 Vagrant permet donc de travailler de façon sécurisée, à seul ou à plusieurs afin d'essayer des logiciels, des scripts ou autre...
 
 \subsection{Installation}
-Vagrant est dans les dépôts de Debian unstable en version 1.6.5 et est disponnible en version 1.7.2 sur le site officiel. Le projet Fedora ne supporte pas encore Vagrant. Malgré cela, les développeurs de Fedora souhaitent le proposer pour la version 22 avec le logiciel libvirt comme hyperviseur par défaut, au lieu de VirtualBox.
+Vagrant est dans les dépôts de Debian unstable en version 1.6.5 et est disponible en version 1.7.2 sur le site officiel. Le projet Fedora ne supporte pas encore Vagrant. Malgré cela, les développeurs de Fedora souhaitent le proposer pour la version 22 avec le logiciel libvirt comme hyperviseur par défaut, au lieu de VirtualBox.
 
-On peut donc télécharger le tarball sur GitHub, le récupérer grâce aux dépôts sur Debian et ses dérivés. On peut également télécharger les paquêts Deb, RPM, les executables .msi et .dmg pour Windows et OS X sur le site officiel du projet.
+On peut donc télécharger le tarball sur GitHub, le récupérer grâce aux dépôts sur Debian et ses dérivés. On peut également télécharger les paquêts Deb, RPM, les éxecutables .msi et .dmg pour Windows et OS X sur le site officiel du projet.
 
 Nous avons utilisé les versions disponible sur Debian unstable et la dernière, disponible sur le site officiel.
 
@@ -105,7 +105,7 @@ vagrant up
 vagrant ssh
 \end{lstlisting}
 
-La première commande sert à créer un Vangrantfile, un fichier de configuration de la machine. La deuxième commande télécharge le disque virtuel hébergé par l'Atlas d'Hashicorp\footnote{Hashicorp a créé un \href{https://atlas.hashicorp.com/boxes/search}{annuaire de machines}, l'Atlas, afin d'en faciliter le téléchargement}, la société derrière Vagrant.
+La première commande sert à créer un Vangrantfile, un fichier de configuration de la machine. La deuxième commande télécharge le disque virtuel hébergé par l'Atlas d'Hashicorp\footnote{Hashicorp a créé un \href{https://atlas.hashicorp.com/boxes/search}{annuaire de machines}, l'Atlas, afin de faciliter les téléchargements}, la société derrière Vagrant.
 Au bout de quelques minutes, la machine est téléchargée et prête à être utilisée. Un shell est lancé grâce à la dernière commande. 
 
 Lorsqu'une commande de Vagrant est utilisée, celui-ci remonte l'arborescence afin de trouver le Vagrantfile. On peut changer le répertoire à partir duquel Vagrant lance la recherche grâce à la variable d'environnement VAGRANT\_CWD. 
@@ -126,7 +126,7 @@ Vagrant.configure(2) do |config|
   ...
 end
 \end{lstlisting}
-Le chiffre 2 signifie que la version de configuration est pour Vagrant version 1.1 ou plus, alors que les configurations pour les versions 1.0.x sont mentionnées par un 1.
+Toutes les configurations se retrouvent entre ces deux lignes. Le chiffre 2 signifie que la version de configuration est pour Vagrant version 1.1 ou plus, alors que les configurations pour les versions 1.0.x sont mentionnées par un 1.
 
 On peut également obliger l'utilisateur à avoir une certaine version de Vagrant (dans ce cas, une version entre la 1.3.5 et la 1.4.0) :
 \begin{lstlisting}
@@ -162,11 +162,11 @@ Vagrant permet de partager des dossiers entre l'hôte et l'invité. De base, le 
 La commande pour la synchronisation des dossiers dans le Vagrantfile est\footnote{Le paramètre a été mis sur deux lignes pour éviter qu'il déborde de la page} :
 \begin{lstlisting}
  config.vm.synced_folder "src/", "/srv/website", 
- create: true, disabled: false, type: nfs
+   create: true, disabled: false, type: nfs
 \end{lstlisting}
 On peut voir ci-dessus que lors du prochain redémarrage de la machine :
 \begin{itemize}
-	\item{Le dossier src/ de l'hôte sera synchronisé avec le dossier /src/website de l'invité.}
+	\item{Le dossier src/ de l'hôte sera synchronisé avec le dossier /srv/website de l'invité.}
 	\item{Le dossier de la machine hôte sera créé s'il n'existe pas.}
 	\item{Le partage sera activé.}
 	\item{Le type de partage sera NFS.}
@@ -181,7 +181,7 @@ De plus, d'autres paramètres existent pour le partage NFS :
 \end{itemize}
 Pour que Vagrant modifie le fichier /etc/exports utilisé par NFS, il lui faut des droits root. Il est donc possible de renseigner le mot de passe à chaque démarrage de machine, de mettre vagrant dans le groupe sudoers ou de modifier soi-même le fichier.
 
-Il est également possible de partager les dossiers avec rsync. Dans ce cas, il sera nécessaire d'utiliser rsync-auto afin de synchroniser les dossiers à chaque changements. Le partage via SMB est quant à lui disponnible que pour les hôtes Windows. 
+Il est également possible de partager les dossiers avec rsync. Dans ce cas, il sera nécessaire d'utiliser rsync-auto afin de synchroniser les dossiers à chaque changements. Le partage via SMB est quant à lui disponible que pour les hôtes Windows. 
 
 Le partage via NFS est à privilégier car il est plus performant et a moins d'inconvéniants (un bug de VirtualBox peut entraîner des fichiers corrompus, la synchronisation automatique avec rsync est plus fastidieuse a mettre en place et SMB n'est disponible que pour les hôtes Windows).
 
@@ -221,7 +221,7 @@ vagrant connect --ssh exquisite-reindeer-4943
 
 La connexion s'effectue sans problèmes et le client est connecté en SSH sur la machine virtuelle. Ici, ce test a été effectué en local, mais il fonctionne également très bien à travers Internet.
 
-Une autre possibilité est fort intéressante. Lorsque l'on partage une machine, un collaborateur peut effectuer la commande \textit{vagrant connect NAME} afin d'avoir une nouvelle adresse IP qui renvoie tous les flux TCP/IP vers la première machine virtuelle. Concrètement, la connection créé une machine virtuelle sur le poste du collaborateur, un proxy qui redirige toutes les connections vers la machine partagée. Cette nouvelle machine est très légère puisqu'elle consomme environ 20Mo de RAM sur VirtualBox ou VMWare. Par contre, il est vivement recommandé de changer les clés SSH qui sont avec le disque virtuel lors du téléchargement. En effet, quiconque connait le nom de la machine peut donc s'y connecter. 
+Une autre possibilité est fort intéressante. Lorsque l'on partage une machine, un collaborateur peut effectuer la commande \textit{vagrant connect NAME} afin d'avoir une nouvelle adresse IP qui renvoie tous les flux TCP/IP vers la première machine virtuelle. Concrètement, la connection créé une machine virtuelle sur le poste du collaborateur, un proxy qui redirige toutes les connections vers la machine partagée. Cette nouvelle machine est très légère puisqu'elle consomme environ 20Mo de RAM sur VirtualBox ou VMWare. Par contre, il est vivement recommandé de changer les clés SSH qui sont avec le disque virtuel lors du téléchargement. En effet, quiconque connait le nom de la machine peut s'y connecter. 
 
 Certains options permettent d'augmenter la sécurité de l'environnement de développement :
 \begin{lstlisting}
@@ -254,7 +254,7 @@ Vagrant.configure("2") do |config|
 	end
 end
 \end{lstlisting}
-Réseau, partages, provisions... Les configurations des machines vont être dans "config.vm.define" au lieu d'être directement dans "Vagrant.configure". On peut ainsi mettre des configurations globales comme les provisions que nous verront après. L'ordre de lecture des configurations est "Dehors, dedans". C'est à dire que Vagrant liste d'abord la configuration globale, puis celle de chaque machine.
+Réseau, partages, provisions... Les configurations des machines vont être dans "config.vm.define" au lieu d'être directement dans "Vagrant.configure". On peut ainsi mettre des configurations globales comme les provisions que nous verrons après. L'ordre de lecture des configurations est "Dehors, dedans". C'est à dire que Vagrant liste d'abord la configuration globale, puis celle de chaque machine.
 
 	Le contrôle diffère un peu d'un projet ou une seule machine est utilisée. Bien que la commande \textit{vagrant up} démarrera toutes les machines, on peut définir le paramètre "autostart" qui empêchera le démarrage automatique. Dans ce cas, il faudra utiliser \textit{vagrant up nom\_machine} pour la démarrer. De même, il faudra utiliser \textit{vagrant ssh nom\_machine} afin de s'y connecter.
 
@@ -334,7 +334,7 @@ config.vm.provision "docker" do |d|
 	d.run "db-2", image: "mysql"
 end
 \end{lstlisting}
-Dans cet exemple, Docker démarrera le conteneur "ubuntu", en exécutant bash au démarrage et . Les deux conteneurs db-1 et db-2 avec la même image "mysql".
+Dans cet exemple, Docker démarrera le conteneur "ubuntu", en exécutant bash au démarrage. Les deux conteneurs db-1 et db-2 avec la même image "mysql".
 
 \subsubsection{Autres}
 
@@ -424,7 +424,7 @@ end
 
 \newpage
 
-\textbf{Docker} est une plate-forme de virtualisation par conteneurs développé en Go, sous licence Apache 2.0. Le but de cette plate-forme est d'empaqueter des applications, afin de permettre le déploiement de celles-ci sur n'importe quel type d'environnement. C'est Solomon Hykes qui crée ce projet avec la contribution de deux autres développeurs, Andrea Luzzardi et François-Xavier Bourlet qui travaillaient à ses cotés au sein de \textit{dotCloud}. Le projet est officiellement distribué à partir de Mars 2013. Il est toujours actif à ce jour et fortement populaire sur le gestionnaire de versions collaboratives \textit{GitHub}.
+\textbf{Docker} est une plate-forme de virtualisation par conteneurs développée en Go, sous licence Apache 2.0. Le but de cette plate-forme est d'empaqueter des applications, afin de permettre le déploiement de celles-ci sur n'importe quel type d'environnement. C'est Solomon Hykes qui crée ce projet avec la contribution de deux autres développeurs, Andrea Luzzardi et François-Xavier Bourlet qui travaillaient à ses cotés au sein de \textit{dotCloud}. Le projet est officiellement distribué à partir de Mars 2013. Il est toujours actif à ce jour et fortement populaire sur le gestionnaire de versions collaboratives \textit{GitHub}.
 
 L'avantage de Docker est qu'il n'intègre pas de système d'exploitation, il est directement lié au système qui l'héberge pour les ressources, évitant ainsi d'être gourmand. En effet, on peut dire que Docker fonctionne à la manière d'un logiciel pour les système, le temps de lancement est donc très faible, il n'y a pas de surcouche à charger. Malgré ça, nous avons un environnement isolé qui permet aux développeurs de ne se soucier que de ce qu'il souhaite virtualiser. Le déploiement des conteneurs s'effectue donc de façon transparente sur des infrastructures physiques ou virtuelles.
 
