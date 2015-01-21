@@ -107,9 +107,9 @@
         \end{itemize}
     \end{frame}
 
-    \begin{frame}[containsverbatim]{Quelques exemples}
+    \begin{frame}[containsverbatim]{Un exemple ?}
         \begin{minted}[fontsize=\scriptsize]{ruby}
-            config.vm.synced_folder "src/", "/srv/website",
+            config.vm.synced\_folder "src/", "/srv/website",
                 create: true, disabled: false, type: nfs
             \end{minted}
             Il existe plus d'options pour gérer les partages NFS :
@@ -122,14 +122,79 @@
         
 
     \begin{frame}{Partage sur le réseau}
+        On peut aussi partager toute la machine à travers Internet :
+        \begin{itemize}
+            \item{vagrant login}
+            \item{vagrant share}
+            \item{vagrant share [--ssh] [--http]}
+            \item{vagrant connect [--ssh]}
+        \end{itemize}
     \end{frame}
 
-    \begin{frame}{Créer ses propres machines}
+    \begin{frame}{Partage sur le réseau}
+        \begin{center}
+            \includegraphics[width=9cm]{images_rapport/sharehttp.jpg}
+        \end{center}
     \end{frame}
 
-    \begin{frame}{Partager ses machines virtuelles}
+    \begin{frame}{Partage sur le réseau}
+        \begin{center}
+            \includegraphics[width=7cm]{images_rapport/vagrantshare.jpg}
+        \end{center}
     \end{frame}
 
+    \begin{frame}{Partage sur le réseau}
+        \begin{center}
+            \includegraphics[width=7cm]{images_rapport/vagrantconnect.jpg}
+        \end{center}
+    \end{frame}
+
+    \begin{frame}[containsverbatim]{L'environnement multi machine}
+        Le but de cette fonctionnalité est de regrouper la configuration de plusieurs machines dans un seul Vagrantfile :
+        \begin{minted}[fontsize=\scriptsize]{ruby}
+            Vagrant.configure(2) do |config|
+                config.vm.define "precise" do |precise|
+                    precise.vm.box = "hashicorp/precise32"
+                end
+                config.vm.define "trusty", autostart: false do |trusty|
+                    trusty.vm.box = "hashicorp/trusty64"
+                end
+            end
+        \end{minted}
+        \begin{alertblock}{Attention}
+            Certaines commandes devront être complétées du nom de l'environnement, comme \em{vagrant ssh precise}
+        \end{alertblock}
+    \end{frame}
+
+    \begin{frame}[containsverbatim]{Les provisions}
+        Les provisions permettent d'automatiser des installations ou scripts lors de la commande vagrant up :
+        \begin{minted}[fontsize=\scriptsize]{ruby}
+            config.vm.provision "apache", inline: <--SHELL
+                sudo apt-get update
+                sudo apt-get install -y apache2
+            SHELL
+        \end{minted}
+        \begin{itemize}
+            \item{vagrant provision}
+            \item{vagrant provision --provision-with apache sql}
+            \item{vagrant up --no-provision}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[containsverbatim]{Les provisions}
+        Il est possible de combiner les provisions avec un environnement multi-machine :
+        \begin{minted}[fontsize=\scriptsize]{ruby}
+            config.vm.provision "mysql", type: "shell", 
+                inline: "apt-get install mysql-server"
+            
+            config.vm.define "web" do |web|
+                web.vm.provision "php", 
+                    inline: "apt-get install php5"
+                web.vm.provision "apache2", type: "shell", 
+                    inline: "apt-get install apache2"
+            end
+        \end{minted}
+    \end{frame}
 
     
     
@@ -211,9 +276,9 @@
     \subsubsection{Partage par archive}
     \subsubsection{Partage par le hub de Docker}
 
-% ==%================ Concurrence ========================
+% ================== Concurrence ========================
 
 
-% ==%================ Conclusion =========================
+% ================== Conclusion =========================
 
 \end{document}
