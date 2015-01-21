@@ -4,4 +4,6 @@
 *.pdf
 *.toc
 *.pdf
-*.tex.swp
+*.swp
+*.snm
+*.nav
