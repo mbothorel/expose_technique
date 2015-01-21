@@ -442,7 +442,7 @@ Après avoir démarré le service, la commande \textit{search} permet de cherche
 
 \subsection{Utilisation des Conteneurs}
 
-Le principe général d'un conteneur, est qu'il va être lancé à partir d'une image préalablement installée, pour pouvoir exécuter un ou plusieurs processus. L'initialisation d'un conteneur est toute simple, il suffit de lancer la commande \textit{run} de Docker avec le processus voulu en paramètre, ainsi que l'image avec laquelle on souhaite l'exécuter. 
+Le principe général d'un conteneur, est qu'il va être lancé à partir d'une image préalablement installée, pour pouvoir exécuter un ou plusieurs processus. L'initialisation d'un conteneur est simple, il suffit de lancer la commande \textit{run} de Docker avec le processus voulu en paramètre, ainsi que l'image avec laquelle on souhaite l'exécuter. 
 
 \begin{lstlisting}
   docker run debian:jessie cat /etc/os-release
@@ -472,13 +472,13 @@ L'image qui en résulte n'écrase pas la précédente, nous nous retrouvons avec
 
 \subsection{Les fichiers de configurations Dockerfile}
 
-La création de conteneurs manuellements est assez fastidieuse et plutôt longue si l'on souhaite installer de nombreux outils à celui-ci. C'est mà qu'intervient les \textit{Dockerfile} ! En effet, ces petits fichiers de scripts permettent d'automatiser l'installation et la personnalisation d'un conteneur. Il s'agit de la deuxième méthode pour installer une image via Docker. Il suffit de télécharger ou de créer son Dockerfile, puis de générer l'image via le fichier :
+La création manuelle de conteneurs est assez fastidieuse et plutôt longue si l'on souhaite installer de nombreux outils à celui-ci. C'est ici qu'interviennent les \textit{Dockerfile} ! En effet, ces petits fichiers de scripts permettent d'automatiser l'installation et la personnalisation d'un conteneur. Il s'agit de la deuxième méthode pour installer une image via Docker. Il suffit de télécharger ou de créer son Dockerfile, puis de générer l'image via le fichier :
 \begin{lstlisting}
-  docker build -t tag-image-generee
+  docker build -t tag-image-generee .
 \end{lstlisting}
 \textit{Build} prend en paramètre le répertoire du Dockerfile, ici '.' pour le répertoire courant. L'option -t permet d'identifer l'image créer via un tag.
 
-La construction d'un Dockerfile est assez simple. Plusieurs commandes sont utilisées : \textit{FROM, MAINTAINER, ENV, RUN, COPY, VOLUME, WORKDIR, CMD, ENTRYPOINT, USER, ADD et EXPOSE}. FROM sert à désigner l'image qui sert de base, MAINTAINER permet de renseigner des informations sur l'auteur de l'image générée, ENV permet de la définition de variables d'environnement, RUN permet d'exécuter les commandes qui modifieront l'image de base, COPY permet de copier des fichiers de l'hôte vers le conteneur créé, VOLUME nous permet de monter un dossier pour qu'il soit accessible depuis d'autre conteneurs, par exemple les fichiers de log (/var/log), WORKDIR permet de définir un répertoire de travail qui sera utilisé par les instructions qui suivent dans le Dockerfile, CMD ne peut être utiliser qu'une seule fois dans le Dockerfile, cela permet d'indiquer à la commande RUN quelle commande exécuter. ENTRYPOINT permet globalement le même fonctionnement que CMD, la différence est qu'ENTRYPOINT impose l'exécution de la commande. USER permet de déclarer le nom ou l'UID à utiliser pour exécuter l'image, ADD fonctionne de la même manière que COPY, sauf que cela permet plusieurs ressources ainsi que des URLs. Enfin EXPOSE, permet d'indiquer les ports sur lesquels le conteneur va écouter. 
+La construction d'un Dockerfile est assez simple. Plusieurs commandes sont utilisées : \textit{FROM, MAINTAINER, ENV, RUN, COPY, VOLUME, WORKDIR, CMD, ENTRYPOINT, USER, ADD et EXPOSE}. FROM sert à désigner l'image qui sert de base, MAINTAINER permet de renseigner des informations sur l'auteur de l'image générée, ENV permet la définition de variables d'environnement, RUN permet d'exécuter les commandes qui modifieront l'image de base, COPY permet de copier des fichiers de l'hôte vers le conteneur créé, VOLUME nous permet de monter un dossier pour qu'il soit accessible depuis d'autre conteneurs, par exemple les fichiers de log (/var/log), WORKDIR permet de définir un répertoire de travail qui sera utilisé par les instructions qui suivent dans le Dockerfile, CMD ne peut être utiliser qu'une seule fois dans le Dockerfile, cela permet d'indiquer à la commande RUN quelle commande exécuter. ENTRYPOINT permet globalement le même fonctionnement que CMD, la différence est qu'ENTRYPOINT impose l'exécution de la commande. USER permet de déclarer le nom ou l'UID à utiliser pour exécuter l'image, ADD fonctionne de la même manière que COPY, sauf que cela permet plusieurs ressources ainsi que des URLs. Enfin EXPOSE, permet d'indiquer les ports sur lesquels le conteneur va écouter. 
 
 \subsection{Partage et export des images Docker}
 
@@ -488,16 +488,16 @@ Faire des images c'est bien, les partager c'est mieux. En effet, il faut pouvoir
 
 Archiver ses images est la solution la plus basique pour partager ses images. Il suffit de sauvegarder ses images dans une archive \textit{.tar} pour par la suite pouvoir les charger sur un autre hôte.
 \begin{lstlisting}
-  docker save <nom-image> > <nom-image>.tar
+  docker save <nom-image> <nom-image>.tar
 \end{lstlisting}
 
 Pour déployer notre image, il suffit d'effectuer un \textit{load} sur notre archive \textit{.tar} :
 
 \begin{lstlisting}
-  docker load < <nom-archive>.tar
+  docker load <nom-archive>.tar
 \end{lstlisting}
 
-A partir de cet instant, la/les image(s) sont chargés sur votre conteneur avec tous les tags ratachés. Les archives contiennent plus exactement des dépôts et non des images brutes, il peut y avoir plusieurs versions d'une même image, mais avec des tags différents.
+A partir de cet instant, la ou les images sont chargés sur votre conteneur avec tous les tags rattachés. Les archives contiennent plus exactement des dépôts et non des images brutes, il peut y avoir plusieurs versions d'une même image, mais avec des tags différents.
 
 Il existe une altérnative qui utilise des commandes de plus bas niveaux de Docker, l'import/export. Cela permet cette fois-ci de sauvegarder sous forme d'archive le système de fichiers du conteneur. Pour pouvoir exporter son conteneur, il faut au préalable le démarrer. Les commandes de l'import/export diffèrent de celles de la sauvegarde :
 
@@ -507,13 +507,13 @@ Il existe une altérnative qui utilise des commandes de plus bas niveaux de Dock
   docker cat nom-archive.tar | docker import -
 \end{lstlisting}
 
-On lance donc le conteneur avec la commande \textit{run} et les options -d, pour indiquer au conteneur de fonctionner en arrière-plan, et l'option -P pour préciser à Docker d'écouter tous les ports qui sont requis pour l'exécution du conteneur. L'export s'effectue à l'aide d'une sous commande \textit{docker ps -lq}. La commande \textit{ps} permet de lister la liste des conteneurs créer, le flag -lnous indique uniquement le dernier conteneur lancéet le flag -q qui signifie \textit{quiet} et qui permet de ne retourner que l'identifiant du conteneur. L'export se fera donc sur le résultat de cette sous commande. L'import utilise la commande \textit{cat} en parallèle pour afficher le contenu de l'archive et récupérer les noms générés. L'import permet également d'utiliser des URLs pour importer des conteneurs, par exemple, http://monserveurweb/monconteneur.tar.
+On lance donc le conteneur avec la commande \textit{run} et les options -d, pour indiquer au conteneur de fonctionner en arrière-plan, et l'option -P pour préciser à Docker d'écouter tous les ports qui sont requis pour l'exécution du conteneur. L'export s'effectue à l'aide d'une sous commande \textit{docker ps -lq}. La commande \textit{ps} permet de lister la liste des conteneurs créer, le flag -l nous indique uniquement le dernier conteneur lancé et le flag -q qui signifie \textit{quiet} et qui permet de ne retourner que l'identifiant du conteneur. L'export se fera donc sur le résultat de cette sous commande. L'import utilise la commande \textit{cat} en parallèle pour afficher le contenu de l'archive et récupérer les noms générés. L'import permet également d'utiliser des URLs pour importer des conteneurs, par exemple, http://monserveurweb/monconteneur.tar.
 
 En définituve l'import/export gère les conteneurs complets contre les images seulements pour la sauvegarde, de plus il y a la gestion des URLs pour l'import/export. Au niveau de la quantité de ressources générée, l'import/export est plus léger d'environ 5\% car il ne conserve pas l'historique des modifications des images ainsi que les métas données liées au conteneur.
 
 \subsubsection{Partage par le hub de Docker}
 
-Le hub Docker est la plate-forme officielle pour gérer le stockage d'images. Il fonctionne globalement comme GitHub, c'est une communauté qui héberge des images et se les partagent librement. Chaque utilisateur souhaitant partager son contenu avec la communauté devra se créer un compte sur le hub, compte qui servira à pouvoir uploader ses images. C'est d'ailleurs ce hub qui nous a permis à l'installation de docker de trouver et de récupérer des images. Les commandes \textit{search et pull} sont reliées directement au hub. L'intérêt de la plate-forme est qu'elle propose un contenu détaillé et précis. En effet, il y a possibilité d'avoir toutes les informations possibles sur les dépôts des utilisateurs, selon ce qu'il a renseigné. Nous pouvons ainsi savoir comment ont été généré les images, combien de fois le dépôt à été téléchargé, et connaître les métas données de celui-ci.
+Le hub Docker est la plate-forme officielle pour gérer le stockage d'images. Il fonctionne globalement comme GitHub, c'est une communauté qui héberge des images et se les partagent librement. Chaque utilisateur souhaitant partager son contenu avec la communauté devra se créer un compte sur le hub, compte qui servira à pouvoir uploader ses images. C'est d'ailleurs ce hub qui nous a permis à l'installation de docker de trouver et de récupérer des images. Les commandes \textit{search et pull} sont reliées directement au hub. L'intérêt de la plate-forme est qu'elle propose un contenu détaillé et précis. En effet, il y a possibilité d'avoir toutes les informations possibles sur les dépôts des utilisateurs, selon ce qu'il a renseigné. Nous pouvons ainsi savoir comment ont été générées les images, combien de fois le dépôt à été téléchargé, et connaître les métas données de celui-ci.
 
 Pour pousser ses images sur le hub, il faut tout d'abord se connecter au service avec son identifiant, son mot de passe et son mail :
 \begin{lstlisting}
