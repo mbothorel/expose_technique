@@ -6,6 +6,7 @@
 \usepackage{helvet}				% Police helvet
 \usepackage{hyperref}			% Lien externe
 \usepackage{listings}   % code source
+\usepackage{minted}
 
 \usetheme{Warsaw}				% Thème Warsaw
 
@@ -63,7 +64,7 @@
             Les Vagrantfile sont les fichiers de configurations. Vagrant va chercher le Vagrantfile en remontant l'arborescence.
         \end{block}
     \end{frame}
-    
+
     \subsection{Configuration}
     \begin{frame}{Vagrantfile}
         Il existe plusieurs Vagrantfiles. Ils sont tous lus dans un certain ordre :
@@ -75,16 +76,66 @@
             \item{Si le dernier n'existe pas non plus : un Vagrantfile qui concerne l'hyperviseur.}
         \end{enumerate}
     \end{frame}
-    
-    \begin{frame}{Quelques configurations}
-        Les Vagrantfile sont écrits en Ruby :\newline{}
-        \em{Vagrant.configure(2) do |config| \\
-                config.vm.network "forwarded\_port", guest: 80, host: 8080\\
-                config.vm.network "private\_network", type: "dhcp"\\
-                config.ssh.username\\
-                config.ssh.private\_key\_path\\
-                config.winrm.host\\
-            end}
+
+    \begin{frame}[containsverbatim]{Quelques exemples}
+        Les Vagrantfile sont écrits en Ruby. Voici quelques exemples de configurations :
+        \begin{minted}[fontsize=\scriptsize]{ruby}
+        Vagrant.configure(2) do |config|
+            config.vm.network "forwarded_port", guest : 80, host : 8080
+            config.vm.network "private_network", type : "dhcp"
+            config.ssh.username
+            config.ssh.private_key_path
+            config.winrm.host
+        end
+        \end{minted}
     \end{frame}
+
+    \subsection{Utilisation avancée}
+    \begin{frame}{Partage de dossiers}
+    \end{frame}
+
+    \begin{frame}{Partage sur le réseau}
+    \end{frame}
+
+    \begin{frame}{Créer ses propres machines}
+    \end{frame}
+
+    \begin{frame}{Partager ses machines virtuelles}
+    \end{frame}
+
+% ================= Section Docker =======================
+    
     \section{Docker}
+    \subsection{Introduction}
+    \begin{frame}
+    \end{frame}
+
+    \subsection{Installation}
+    \begin{frame}
+    \end{frame}
+
+    \subsection{Utilisation des Conteneurs}
+    \begin{frame}
+    \end{frame}
+
+    \subsection{Les fichiers de configurations Dockerfile}
+    \begin{frame}
+    \end{frame}
+
+    \subsection{Partage et export des images Docker}
+    \begin{frame}
+    \end{frame}
+
+    \subsubsection{Partage par archive}
+    \begin{frame}
+    \end{frame}
+
+    \subsubsection{Partage par le hub de Docker}
+    \begin{frame}
+    \end{frame}
+
+% =============== Section Concurrence ====================
+
+    \section{La concurrence}
+
 \end{document}
