@@ -1,0 +1,154 @@
+\documentclass{beamer}
+
+\usepackage[francais]{babel}	% Pour le français
+\usepackage[utf8]{inputenc}		% Pour l'utf8
+\usepackage[T1]{fontenc}		% Pour le codage latin
+\usepackage{helvet}				% Police helvet
+\usepackage{hyperref}			% Lien externe
+\usepackage{tipa} 				% Pour le "f" de la prononciation
+\usepackage{tikz}				% Pour le schéma
+\usepackage{pgfplots}
+
+\usetheme{Warsaw}				% Thème Warsaw
+
+\title{Bucarest}
+\author{Maxence Bothorel}
+\institute{Licence professionnelle ASRALL,\\
+	IUT Nancy Charlemagne,\\
+	Nancy}
+\date{14/12/2014}
+
+\AtBeginSection[]{
+		\begin{frame}
+				\frametitle{Sommaire}
+				\tableofcontents[currentsection, hideothersubsections]{}
+		\end{frame}
+}
+
+\begin{document}
+
+    \begin{frame}
+		\maketitle{}
+	\end{frame}
+
+	\section{Introduction}
+	\begin{frame}{Bucarest}
+		\begin{columns}[c]
+			\column{0.5\textwidth}
+			\begin{figure}
+				\caption{Héraldique}
+				\includegraphics[scale=0.1]{images/heraldique}
+			\end{figure}
+
+			\column{0.5\textwidth}
+			\begin{figure}
+				\caption{Drapeau}
+				\includegraphics[scale=0.1]{images/drapeau}
+			\end{figure}
+		\end{columns}
+	\end{frame}
+	
+	\begin{frame}{Bucarest}
+		\begin{center}
+			\begin{tabular}{ll}
+				Pays & Roumanie \\
+				Maire & Sorin Oprescu \\
+				Population & 1 883 425 hab. \\
+				Densité & 8 261 hab./km\up{2} \\
+			\end{tabular}
+			\pause[2]{
+				\begin{block}{Note}
+					\textbf{Bucarest} s'écrit \textit{Bucare\c{s}ti} et se prononce /bu.ku're\textesh{}t\up{j}/
+				\end{block}
+			}
+		\end{center}
+	\end{frame}
+
+	\section{Géographie}
+	\subsection{Climat}
+	\begin{frame}{Climat}
+		\begin{itemize}
+			\item<+->{Le climat de la Valachie est continental}
+			\item<+->{Fort clivage entre les hivers rigoureux et étés moites}
+			\item<+->{Précipitations au printemps et en été}
+		\end{itemize}
+		\begin{description}
+			\item<+->[Avant]{Les arbres coupaient du vent l'hiver et maintenaient la fraicheur l'été}
+			\item<+->[Maintenant]{La mode du béton et du verre accentue les contrastes climatiques}
+		\end{description}
+	\end{frame}
+
+	\subsection{Relevé météorologique}
+	\begin{frame}{Relevé météorologique}
+		\begin{tikzpicture}
+			\begin{axis}[
+			xlabel={Mois},
+			ylabel={Temperatures},
+			xmin=1, xmax=12,
+			ymin=-5, ymax=30,
+			legend pos= outer north east,
+			ymajorgrids=true,
+			]
+				\addplot[
+				color=blue,
+				]
+				coordinates {
+						(1,-4.8)(2,-4)(3,0.1)(4,4.9)(5,10.5)(6,13.6)(7,15.4)(8,14.9)(9,10.5)(10,5.4)(11,0.6)(12,-3.4)
+				};
+				\addlegendentry{Temp. min.}
+					
+				\addplot[
+				color=orange,
+				]
+				coordinates {
+						(1,-1)(2,0.8)(3,5.8)(4,11.5)(5,16.9)(6,20.7)(7,22.6)(8,22.4)(9,17.6)(10,11.7)(11,5.2)(12,0.2)
+				};
+				\addlegendentry{Temp. moy.}
+
+				\addplot[
+				color=red,
+				]
+				coordinates {
+						(1,2.8)(2,5.5)(3,11.4)(4,18)(5,24)(6,27.7)(7,29.8)(8,29.8)(9,24.6)(10,17.9)(11,9.8)(12,3.7)
+				};
+				\addlegendentry{Temp. max.}
+			\end{axis}
+		\end{tikzpicture}
+	\end{frame}
+
+	\section{Transport}
+	\subsection{Métro}
+	\begin{frame}{Lignes en services}
+		Le métro est le transport le plus fiable de la ville
+		\begin{enumerate}
+			\item{La ligne M1 reliant Pantelimon à Dristor}
+			\item{La ligne M2 reliant Pipera à Berceni}
+			\item{La ligne M3 reliant Precizei à Anghel Saligny}
+			\item{La ligne M4 reliant le Parc Bazilescu à Gare du Nord}
+		\end{enumerate}
+	\end{frame}
+	\begin{frame}{Lignes à venir}
+		Il est également prévu : 
+		\begin{enumerate}
+			\pause[2]{
+			\item{La ligne M5 (2016) reliant Pantelimon à Râul Doamnei}}
+			\item{La ligne M6 (2019) reliant l'aéroport Henri-Coand\u{a} à l'aéroport Aurel-Vlaicu}
+			\pause[3]{
+			\item{La ligne M7 (2020) reliant Voluntari à Bragadiru}
+			\item{La ligne M5 (non planifié) reliant Cranga\c{s}i à Dristor}}
+		\end{enumerate}	
+	\end{frame}
+
+	\subsection{Transport de surface}
+	\begin{frame}{RATB}
+		La Régie Autonome des Transports de Bucarest (RATB) :
+		\begin{itemize}
+			\item{L'un des plus grand résaux d'Europe}
+			\item{2,3 millions de passagers par jours}
+			\item{Réseau d'autobus (105 lignes)}
+			\item{Réseau de trolleybus\footnote{\href{https://fr.wikipedia.org/wiki/Trolleybus}{Le Trolleybus (Wikipedia)}} (18 lignes}
+			\item{Réseau de tramway (25 lignes)}
+			\item{Réseau de métro léger}
+		\end{itemize}
+	\end{frame}
+\end{document}
