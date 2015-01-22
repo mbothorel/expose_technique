@@ -201,19 +201,85 @@
         \end{minted}
     \end{frame}
 
-    \begin{frame}[containsverbatim]{Les provisions file}
+    \begin{frame}[containsverbatim]{La provision file}
         La provision nommée "file" permet d'envoyer un fichier vers le système invité :
         \begin{minted}[fontsize=\scriptsize]{ruby}
-        config.vm.provision "file", source: ".zshrc", destination "/home/user/.zshrc"
+        config.vm.provision "file", source: ".zshrc", 
+            destination "/home/user/.zshrc"
         \end{minted}
     \end{frame}
 
     \begin{frame}[containsverbatim]{Les provisions Docker}
         Les provisions Docker permettent de créer, déployer, configurer et démarrer des conteneurs : 
+        \begin{minted}[fontsize=\scriptsize]{ruby}
+            config.vm.provision "docker" do |d|
+                d.build_image "/mon/app",
+                    args: "-t 'monapplication'"
+            end
+        \end{minted}
+            Cette commande créer le conteneur "monapplication" depuis un Dockerfile dans le répertoire "/mon/app".
     \end{frame}
     
+    \begin{frame}[containsverbatim]{Les provisions Docker}
+        On peut facilement installer une ou plusieurs image Docker dans la machine virtuelle :
+        \begin{minted}[fontsize=\scriptsize]{ruby}
+            config.vm.provision "docker" do |d|
+                d.pull_images "debian:jessie"
+                d.pull_images "nginx"
+            end
+        \end{minted}
+        On peut aussi démarrer une image Docker au démarrage de la machine :
+
+        \begin{minted}[fontsize=\scriptsize]{ruby}
+            config.vm.provision "docker" do |d|
+                d.run "debian:jessie", cmd: "bash -l"
+                d.run "web1", image: "nginx"
+                d.run "web2", image: "nginx"
+        \end{minted}
+    \end{frame}
+
+    \begin{frame}{Créer ses propres machines}
+        Pour créer sa propre box (afin de la partager), il existe des commandes d'un hyperviseur à un autre :
+        \begin{itemize}
+            \item{vagrant package --base nom\_machine, pour VirtualBox}
+            \item{tar cvzf custom.box ./*, pour VMWare}
+        \end{itemize}
+        Pour la partager sur l'Atlas de Vagrant, il est demandé de respecter certains aspects :
+        \begin{itemize}
+            \item{La première interface "adapter1" doit être en NAT}
+            \item{Utilisateur et mot de passe : vagrant}
+            \item{sudo ne doit pas demander de mot de passe}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[containsverbatim]{Déployer ses machines}
+        Déploiement sur un serveur FTP/SFTP :
+        \begin{minted}[fontsize=\scriptsize]{ruby}
+            config.push.define "ftp" do |push|
+                push.host = "ftp.mondomaine.org"
+                push.username = "user"
+                push.password = "mdp"
+                push.secure = true
+                push.destination = "/home/me"
+                push.exlude = ".test"
+            end
+        \end{minted}
+    \end{frame}
     
-    
+    \begin{frame}[containsverbatim]{Déployer ses machines}
+        Déploiement sur l'Atlas de Vagrant :
+        \begin{minted}[fontsize=\scriptsize]{ruby}
+            config.push.define "atlas" do |push|
+                push.app = "mbothorel/debian8"
+            end
+        \end{minted}
+        Stratégie locale de partage :
+        \begin{minted}[fontsize=\scriptsize]{ruby}
+            config.push.define "local-exec" do |push|
+                push.script = "/home/monscript.sh"
+            end
+        \end{minted}
+    \end{frame}
     
     
     
@@ -298,8 +364,8 @@
 
     \subsection{Partage et export des images Docker}
     \begin{frame}
-       \begin{itemize}
-       \end{itemize}
+       %\begin{itemize}
+       %\end{itemize}
     \end{frame}
 
     \subsubsection{Partage par archive}
