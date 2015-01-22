@@ -280,39 +280,8 @@
             end
         \end{minted}
     \end{frame}
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+        
     
     
     
@@ -326,7 +295,6 @@
           \item{Développé en Go, sous licence Apache 2.0}
           \item{Créer par Salomon Hykes en Mars 2013}
           \item{Architecture légère}
-          \item{}
        \end{itemize}
     \end{frame}
 
@@ -347,19 +315,33 @@
           \item{Déployer des outils avec le conteneur}
        \end{itemize}
      
-       \begin{exampleblock}{Démarrer un conteneur avec un shell}
+       \begin{block}{Démarrer un conteneur avec un shell}
           \begin{minted}[fontsize=\scriptsize]{bash}
              docker run -it debian:jessie /bin/bash
           \end{minted}
-       \end{exampleblock}
+       \end{block}
     \end{frame}
 
     \subsection{Les fichiers de configurations Dockerfile}
-    \begin{frame}
+    \begin{frame}[containsverbatim]
        \begin{itemize}
           \item{Automatisation de la création d'un conteneur}
 	  \item{Possibilité de voir la configuration d'un conteneur}
        \end{itemize}
+
+       \begin{block}{Exemple de Dockerfile simple}
+         \begin{minted}[fontsize=\scriptsize]{bash}
+            FROM debian:jessie
+            MAINTAINER toto toto@titi.com
+            RUN apt-get update
+            RUN apt-get install -y nginx
+            VOLUME [``/var/log/nginx'', ``/var/www/html'']
+            WORKDIR /etc/nginx
+            CMD [``nginx'']
+            EXPOSE 80
+            EXPOSE 443
+         \end{minted}
+       \end{block}
     \end{frame}
 
     \subsection{Partage et export des images Docker}
@@ -368,25 +350,25 @@
           \item{Sauvegarde des images avec la commande \em{save}}
        \end{itemize}
        
-        \begin{exampleblock}
+       \begin{block}{}
           \begin{minted}[fontsize=\scriptsize]{bash}
              docker save <nom-image> <nom-archive>.tar
              ...
              docker load <nom-archive>.tar
           \end{minted}
-       \end{exampleblock}
+       \end{block}
 
        \begin{itemize}
           \item{Sauvegarde des conteneurs avec la commande \em{export}}
        \end{itemize}
 
-       \begin{exampleblock}
+       \begin{block}{}
           \begin{minted}[fontsize=\scriptsize]{bash}
              docker run -d -P <conteneur>
              docker export `docker ps -lq` > <nom-archive>.tar
              docker cat <nom-archive>.tar | docker import -
           \end{minted}
-       \end{exampleblock}
+       \end{block}
     \end{frame}
 
     \begin{frame}[containsverbatim]{Via le hub de Docker}
@@ -399,21 +381,23 @@
              \end{itemize}
        \end{itemize}
        
-       \begin{exampleblock}
+       \begin{block}{}
           \begin{minted}[fontsize=\scriptsize]{bash}
-             docker login
-             docker tag debian toto/debian
-             docker rmi debian
-             docker push toto/debian
+            docker login
+            docker tag debian toto/debian
+            docker rmi debian
+            docker push toto/debian
           \end{minted}
-       \end{exampleblock}
+       \end{block}
     \end{frame}
 
-    
 
-% ================== Concurrence ========================
 
-    \section{La concurrence}
+% ================== Conclusion =========================
+
+    \section{Conclusion}
+
+    \subsection{La concurrence}
     \begin{frame}
        \begin{itemize}
           \item{Les principaux concurrents de Docker se basent sur Docker}
@@ -422,13 +406,12 @@
        \end{itemize}
     \end{frame}
 
-
-% ================== Conclusion =========================
-
-    \section{Conclusion}
+    \subsection{Pour finir}
     \begin{frame}
        \begin{itemize}
           \item{Vagrant et Docker permettent de créer des environnements de développement portables}
           \item{Ils sont une bonne alternative pour développer avec sureté}
        \end{itemize}
     \end{frame}
+
+\end{document}
